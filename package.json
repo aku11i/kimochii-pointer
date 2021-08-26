@@ -10,6 +10,9 @@
       "require": "./dist/variable-cursor.cjs.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite --open /demo.html",
     "build": "vite build",
