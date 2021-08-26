@@ -2,9 +2,16 @@
   "name": "variable-cursor",
   "version": "0.0.1",
   "description": "A variable mouse cursor implementation for JavaScript.",
-  "main": "dist/variable-cursor.js",
+  "main": "./dist/variable-cursor.umd.js",
+  "module": "./dist/variable-cursor.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/variable-cursor.es.js",
+      "require": "./dist/variable-cursor.umd.js"
+    }
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,10 +25,14 @@
     "url": "https://github.com/aku11i/variable-cursor/issues"
   },
   "homepage": "https://github.com/aku11i/variable-cursor#readme",
-  "devDependencies": {
-    "typescript": "^4.3.5"
+  "dependencies": {},
+  "peerDependencies": {
+    "gsap": "^3.x"
   },
-  "dependencies": {
-    "gsap": "^3.7.1"
+  "devDependencies": {
+    "@types/node": "^16.7.2",
+    "gsap": "^3.7.1",
+    "typescript": "^4.3.5",
+    "vite": "^2.5.1"
   }
 }

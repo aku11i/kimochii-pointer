@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="module" src="./demo.ts"></script>
+  </head>
+
+  <body hide-mouse-cursor>
+    <main class="hide-mouse-cursor">
+      <section>
+        <h2>Sticky</h2>
+        <button data-variable-cursor-type="stick">BUTTON</button>
+        <a href="#" data-variable-cursor-type="stick">LINK</a>
+      </section>
+      <section>
+        <h2>Expanded</h2>
+        <button data-variable-cursor-type="expand">EXPAND</button>
+        <a href="#" data-variable-cursor-type="expand">EXPAND</a>
+      </section>
+    </main>
+  </body>
+
+  <style>
+    body {
+    }
+
+    body[hide-mouse-cursor] * {
+      cursor: none;
+    }
+
+    main {
+      width: 100vw;
+      height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    section {
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px;
+      border-width: 1px;
+      border-color: black;
+    }
+  </style>
+</html>
