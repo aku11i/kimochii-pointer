@@ -9,46 +9,92 @@
   </head>
 
   <body hide-mouse-cursor>
-    <main class="hide-mouse-cursor">
-      <section>
-        <h2>Sticky</h2>
-        <button data-variable-cursor="sticky">BUTTON</button>
-        <a href="#" data-variable-cursor="sticky">LINK</a>
-      </section>
-      <section>
-        <h2>Expanded</h2>
-        <button data-variable-cursor="expanded">EXPAND</button>
-        <a href="#" data-variable-cursor="expanded">EXPAND</a>
-      </section>
-    </main>
+    <div
+      style="
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      "
+    >
+      <header>
+        <a
+          href="https://github.com/aku11i/variable-cursor"
+          data-variable-cursor="expanded"
+        >
+          <h1>Variable Cursor</h1>
+        </a>
+      </header>
+
+      <main>
+        <section>
+          <div class="container">
+            <button data-variable-cursor="sticky" class="icon">🐵</button>
+            <button data-variable-cursor="sticky" class="icon">🙈</button>
+            <button data-variable-cursor="sticky" class="icon">🙉</button>
+            <button data-variable-cursor="sticky" class="icon">🙊</button>
+          </div>
+
+          <div class="container">
+            <button data-variable-cursor="sticky">STICKY</button>
+            <button data-variable-cursor="sticky">STICKY</button>
+            <button data-variable-cursor="sticky">STICKY</button>
+            <button data-variable-cursor="sticky">STICKY</button>
+          </div>
+
+          <div class="container">
+            <button data-variable-cursor="expanded">EXPANDED</button>
+            <button data-variable-cursor="expanded">EXPANDED</button>
+            <button data-variable-cursor="expanded">EXPANDED</button>
+            <button data-variable-cursor="expanded">EXPANDED</button>
+          </div>
+        </section>
+      </main>
+    </div>
   </body>
 
   <style>
     body {
+      font-family: sans-serif;
     }
 
     body[hide-mouse-cursor] * {
       cursor: none;
     }
 
-    main {
-      width: 100vw;
-      height: 100vh;
+    div.container {
+      padding: 20px;
 
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
-      align-items: center;
     }
 
-    section {
+    h1,
+    h2 {
+      text-align: center;
     }
 
     button {
       margin: 10px;
       padding: 10px;
-      border-width: 1px;
+
+      background-color: white;
+      border-width: 0px;
       border-color: black;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      font-size: large;
+    }
+
+    button.icon {
+      width: 80px;
+      height: 80px;
+      font-size: 60px;
     }
   </style>
 </html>
