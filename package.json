@@ -2,15 +2,16 @@
   "name": "variable-cursor",
   "version": "0.0.1",
   "description": "A variable mouse cursor implementation for JavaScript.",
-  "main": "./dist/variable-cursor.umd.js",
+  "main": "./dist/variable-cursor.cjs.js",
   "module": "./dist/variable-cursor.es.js",
   "exports": {
     ".": {
       "import": "./dist/variable-cursor.es.js",
-      "require": "./dist/variable-cursor.umd.js"
+      "require": "./dist/variable-cursor.cjs.js"
     }
   },
   "scripts": {
+    "dev": "vite --open /demo.html",
     "build": "vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

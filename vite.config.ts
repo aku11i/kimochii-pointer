@@ -7,6 +7,10 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/variableCursor.ts"),
       name: "VariableCursor",
+      formats: ["es", "cjs"],
+    },
+    rollupOptions: {
+      external: ["gsap"],
     },
   },
 });
