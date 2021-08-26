@@ -1,12 +1,13 @@
 import { gsap, Power2 } from "gsap";
 
 export const TYPE_ATTRIBUTE_NAME = "data-variable-cursor-type";
+export const POINTER_CLASS_NAME = "__variable-cursor-pointer";
 
-export enum VariableCursorType {
-  NONE = "none",
+export const enum VariableCursorType {
   NORMAL = "normal",
   STICK = "stick",
   EXPAND = "expand",
+  _NONE = "none",
 }
 
 export type VariableCursorOptions = {
@@ -24,44 +25,55 @@ export type VariableCursorOptions = {
   zIndex?: string;
 };
 
+const defualtOptions: Required<VariableCursorOptions> = {
+  pointerSize: 30,
+  pointerColor: "gray",
+  pointerOpacity: 0.5,
+  pointerBorderRadius: "50%",
+  normalDuration: 0.1,
+  stickDuration: 0.15,
+  stickOpacity: 0.3,
+  moveDuration: 0.1,
+  expandScale: 2,
+  expandDuration: 0.1,
+  expandOpacity: 0.4,
+  zIndex: "100000",
+} as const;
+
 export type VariableCursorResult = {
   element: HTMLElement;
   mount: (to?: HTMLElement) => void;
   unmount: () => void;
 };
 
-export function variableCursor(
-  element: VariableCursorResult["element"] = document.createElement("div"),
-  {
-    pointerSize = 30,
-    pointerColor = "gray",
-    pointerOpacity = 0.5,
-    pointerBorderRadius = "50%",
-    normalDuration = 0.1,
-    stickDuration = 0.15,
-    stickOpacity = 0.3,
-    moveDuration = 0.1,
-    expandScale = 2,
-    expandDuration = 0.1,
-    expandOpacity = 0.4,
-    zIndex = "100000",
-  }: VariableCursorOptions = {}
-): VariableCursorResult {
-  let current: VariableCursorType = VariableCursorType.NONE;
+export type VariableCursor = (
+  options?: VariableCursorOptions
+) => VariableCursorResult;
+
+export const variableCursor: VariableCursor = (_options = {}) => {
+  let current: VariableCursorType = VariableCursorType._NONE;
+
+  const element = document.createElement("div");
+  element.classList.add(POINTER_CLASS_NAME);
+
+  const options: Required<VariableCursorOptions> = {
+    ...defualtOptions,
+    ..._options,
+  };
 
   element.style.position = "absolute";
   element.style.transform = "translate(-50%, -50%)";
-  element.style.zIndex = zIndex;
+  element.style.zIndex = options.zIndex;
   element.style.pointerEvents = "none";
 
   gsap.set(element, {
-    opacity: pointerOpacity,
-    backgroundColor: pointerColor,
-    borderRadius: pointerBorderRadius,
-    width: pointerSize,
-    height: pointerSize,
-    top: -pointerSize,
-    left: -pointerSize,
+    opacity: options.pointerOpacity,
+    backgroundColor: options.pointerColor,
+    borderRadius: options.pointerBorderRadius,
+    width: options.pointerSize,
+    height: options.pointerSize,
+    top: -options.pointerSize,
+    left: -options.pointerSize,
   });
 
   const normal = () => {
@@ -70,11 +82,11 @@ export function variableCursor(
     current = VariableCursorType.NORMAL;
 
     gsap.to(element, {
-      width: pointerSize,
-      height: pointerSize,
-      opacity: pointerOpacity,
-      borderRadius: pointerBorderRadius,
-      duration: normalDuration,
+      width: options.pointerSize,
+      height: options.pointerSize,
+      opacity: options.pointerOpacity,
+      borderRadius: options.pointerBorderRadius,
+      duration: options.normalDuration,
       ease: Power2.easeOut,
       overwrite: true,
     });
@@ -92,9 +104,9 @@ export function variableCursor(
       left: offsetLeft + offsetWidth / 2,
       width: offsetWidth,
       height: offsetHeight,
-      opacity: stickOpacity,
+      opacity: options.stickOpacity,
       borderRadius: `${Math.min(offsetHeight, offsetWidth) * 0.1}px`,
-      duration: stickDuration,
+      duration: options.stickDuration,
       ease: Power2.easeInOut,
       overwrite: true,
     });
@@ -106,10 +118,11 @@ export function variableCursor(
     current = VariableCursorType.EXPAND;
 
     gsap.to(element, {
-      width: pointerSize * expandScale,
-      height: pointerSize * expandScale,
-      opacity: expandOpacity,
-      duration: expandDuration,
+      width: options.pointerSize * options.expandScale,
+      height: options.pointerSize * options.expandScale,
+      opacity: options.expandOpacity,
+      borderRadius: options.pointerBorderRadius,
+      duration: options.expandDuration,
       ease: Power2.easeOut,
       overwrite: true,
     });
@@ -118,7 +131,7 @@ export function variableCursor(
   const handleMouseMove = (event: MouseEvent) => {
     const { pageX, pageY, clientX, clientY } = event;
 
-    if (current === VariableCursorType.NONE) {
+    if (current === VariableCursorType._NONE) {
       gsap.set(element, {
         top: pageY,
         left: pageX,
@@ -131,7 +144,7 @@ export function variableCursor(
       gsap.to(element, {
         top: pageY,
         left: pageX,
-        duration: moveDuration,
+        duration: options.moveDuration,
       });
     }
 
@@ -171,4 +184,4 @@ export function variableCursor(
   };
 
   return { element, mount, unmount };
-}
+};
