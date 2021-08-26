@@ -1,12 +1,12 @@
 import { gsap, Power2 } from "gsap";
 
-export const TYPE_ATTRIBUTE_NAME = "data-variable-cursor-type";
-export const POINTER_CLASS_NAME = "__variable-cursor-pointer";
+export const MODE_ATTRIBUTE_NAME = "data-variable-cursor";
 
-export const enum VariableCursorType {
+export const enum VariableCursorMode {
   NORMAL = "normal",
-  STICK = "stick",
-  EXPAND = "expand",
+  STICKY = "sticky",
+  EXPANDED = "expanded",
+  /** Only used in initializing. */
   _NONE = "none",
 }
 
@@ -16,12 +16,12 @@ export type VariableCursorOptions = {
   pointerOpacity?: number;
   pointerBorderRadius?: string;
   normalDuration?: number;
-  stickDuration?: number;
-  stickOpacity?: number;
+  stickyDuration?: number;
+  stickyOpacity?: number;
   moveDuration?: number;
-  expandScale?: number;
-  expandDuration?: number;
-  expandOpacity?: number;
+  expandedScale?: number;
+  expandedDuration?: number;
+  expandedOpacity?: number;
   zIndex?: string;
 };
 
@@ -31,12 +31,12 @@ const defualtOptions: Required<VariableCursorOptions> = {
   pointerOpacity: 0.5,
   pointerBorderRadius: "50%",
   normalDuration: 0.1,
-  stickDuration: 0.15,
-  stickOpacity: 0.3,
+  stickyDuration: 0.15,
+  stickyOpacity: 0.3,
   moveDuration: 0.1,
-  expandScale: 2,
-  expandDuration: 0.1,
-  expandOpacity: 0.4,
+  expandedScale: 2,
+  expandedDuration: 0.1,
+  expandedOpacity: 0.4,
   zIndex: "100000",
 } as const;
 
@@ -44,6 +44,10 @@ export type VariableCursorResult = {
   element: HTMLElement;
   mount: (to?: HTMLElement) => void;
   unmount: () => void;
+  normalMode: () => void;
+  stickyMode: (target: HTMLElement) => void;
+  expandedMode: () => void;
+  getCurrentMode: () => VariableCursorMode;
 };
 
 export type VariableCursor = (
@@ -51,10 +55,10 @@ export type VariableCursor = (
 ) => VariableCursorResult;
 
 export const variableCursor: VariableCursor = (_options = {}) => {
-  let current: VariableCursorType = VariableCursorType._NONE;
+  let current: VariableCursorMode = VariableCursorMode._NONE;
+  const getCurrentMode: VariableCursorResult["getCurrentMode"] = () => current;
 
   const element = document.createElement("div");
-  element.classList.add(POINTER_CLASS_NAME);
 
   const options: Required<VariableCursorOptions> = {
     ...defualtOptions,
@@ -76,10 +80,10 @@ export const variableCursor: VariableCursor = (_options = {}) => {
     left: -options.pointerSize,
   });
 
-  const normal = () => {
-    if (current === VariableCursorType.NORMAL) return;
+  const normalMode: VariableCursorResult["normalMode"] = () => {
+    if (current === VariableCursorMode.NORMAL) return;
 
-    current = VariableCursorType.NORMAL;
+    current = VariableCursorMode.NORMAL;
 
     gsap.to(element, {
       width: options.pointerSize,
@@ -92,10 +96,10 @@ export const variableCursor: VariableCursor = (_options = {}) => {
     });
   };
 
-  const stick = (target: HTMLElement) => {
-    if (current === VariableCursorType.STICK) return;
+  const stickyMode: VariableCursorResult["stickyMode"] = (target) => {
+    if (current === VariableCursorMode.STICKY) return;
 
-    current = VariableCursorType.STICK;
+    current = VariableCursorMode.STICKY;
 
     const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = target;
 
@@ -104,25 +108,25 @@ export const variableCursor: VariableCursor = (_options = {}) => {
       left: offsetLeft + offsetWidth / 2,
       width: offsetWidth,
       height: offsetHeight,
-      opacity: options.stickOpacity,
+      opacity: options.stickyOpacity,
       borderRadius: `${Math.min(offsetHeight, offsetWidth) * 0.1}px`,
-      duration: options.stickDuration,
+      duration: options.stickyDuration,
       ease: Power2.easeInOut,
       overwrite: true,
     });
   };
 
-  const expand = () => {
-    if (current === VariableCursorType.EXPAND) return;
+  const expandedMode: VariableCursorResult["expandedMode"] = () => {
+    if (current === VariableCursorMode.EXPANDED) return;
 
-    current = VariableCursorType.EXPAND;
+    current = VariableCursorMode.EXPANDED;
 
     gsap.to(element, {
-      width: options.pointerSize * options.expandScale,
-      height: options.pointerSize * options.expandScale,
-      opacity: options.expandOpacity,
+      width: options.pointerSize * options.expandedScale,
+      height: options.pointerSize * options.expandedScale,
+      opacity: options.expandedOpacity,
       borderRadius: options.pointerBorderRadius,
-      duration: options.expandDuration,
+      duration: options.expandedDuration,
       ease: Power2.easeOut,
       overwrite: true,
     });
@@ -131,16 +135,16 @@ export const variableCursor: VariableCursor = (_options = {}) => {
   const handleMouseMove = (event: MouseEvent) => {
     const { pageX, pageY, clientX, clientY } = event;
 
-    if (current === VariableCursorType._NONE) {
+    if (current === VariableCursorMode._NONE) {
       gsap.set(element, {
         top: pageY,
         left: pageX,
       });
-      normal();
+      normalMode();
       return;
     }
 
-    if (current !== VariableCursorType.STICK) {
+    if (current !== VariableCursorMode.STICKY) {
       gsap.to(element, {
         top: pageY,
         left: pageX,
@@ -150,23 +154,23 @@ export const variableCursor: VariableCursor = (_options = {}) => {
 
     const target = document
       .elementsFromPoint(clientX, clientY)
-      .find((el) => el.hasAttribute(TYPE_ATTRIBUTE_NAME));
+      .find((el) => el.hasAttribute(MODE_ATTRIBUTE_NAME));
 
     if (!target) {
-      if (current !== VariableCursorType.NORMAL) normal();
+      if (current !== VariableCursorMode.NORMAL) normalMode();
       return;
     }
 
     const cursorType =
-      (target.getAttribute(TYPE_ATTRIBUTE_NAME) as VariableCursorType) ||
-      VariableCursorType.NORMAL;
+      (target.getAttribute(MODE_ATTRIBUTE_NAME) as VariableCursorMode) ||
+      VariableCursorMode.NORMAL;
 
     switch (cursorType) {
-      case VariableCursorType.STICK:
-        stick(target as HTMLElement);
+      case VariableCursorMode.STICKY:
+        stickyMode(target as HTMLElement);
         return;
-      case VariableCursorType.EXPAND:
-        expand();
+      case VariableCursorMode.EXPANDED:
+        expandedMode();
         return;
       default:
         return;
@@ -183,5 +187,13 @@ export const variableCursor: VariableCursor = (_options = {}) => {
     element.remove();
   };
 
-  return { element, mount, unmount };
+  return {
+    element,
+    mount,
+    unmount,
+    getCurrentMode,
+    normalMode,
+    stickyMode,
+    expandedMode,
+  };
 };
