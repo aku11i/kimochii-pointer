@@ -2,7 +2,7 @@ import { gsap, Power2 } from "gsap";
 
 export const MODE_ATTRIBUTE_NAME = "data-variable-cursor";
 
-export const enum VariableCursorMode {
+export enum VariableCursorMode {
   NORMAL = "normal",
   STICKY = "sticky",
   EXPANDED = "expanded",
@@ -25,7 +25,7 @@ export type VariableCursorOptions = {
   zIndex?: string;
 };
 
-const defualtOptions: Required<VariableCursorOptions> = {
+export const variableCursorDefaultOptions: Required<VariableCursorOptions> = {
   pointerSize: 30,
   pointerColor: "gray",
   pointerOpacity: 0.5,
@@ -40,115 +40,113 @@ const defualtOptions: Required<VariableCursorOptions> = {
   zIndex: "100000",
 } as const;
 
-export type VariableCursorResult = {
-  element: HTMLElement;
-  mount: (to?: HTMLElement) => void;
-  unmount: () => void;
-  normalMode: () => void;
-  stickyMode: (target: HTMLElement) => void;
-  expandedMode: () => void;
-  getCurrentMode: () => VariableCursorMode;
-};
+export class VariableCursor {
+  private readonly _options: Required<VariableCursorOptions>;
 
-export type VariableCursor = (
-  options?: VariableCursorOptions
-) => VariableCursorResult;
+  private readonly _element: HTMLElement;
+  public get element(): HTMLElement {
+    return this._element;
+  }
 
-export const variableCursor: VariableCursor = (_options = {}) => {
-  let current: VariableCursorMode = VariableCursorMode._NONE;
-  const getCurrentMode: VariableCursorResult["getCurrentMode"] = () => current;
+  private _currentMode: VariableCursorMode;
+  public get currentMode(): VariableCursorMode {
+    return this._currentMode;
+  }
 
-  const element = document.createElement("div");
+  constructor(userOptions: VariableCursorOptions = {}) {
+    this._options = {
+      ...variableCursorDefaultOptions,
+      ...userOptions,
+    };
 
-  const options: Required<VariableCursorOptions> = {
-    ...defualtOptions,
-    ..._options,
-  };
+    this._element = document.createElement("div");
+    this._currentMode = VariableCursorMode._NONE;
 
-  element.style.position = "absolute";
-  element.style.transform = "translate(-50%, -50%)";
-  element.style.zIndex = options.zIndex;
-  element.style.pointerEvents = "none";
+    this._element.style.position = "absolute";
+    this._element.style.transform = "translate(-50%, -50%)";
+    this._element.style.zIndex = this._options.zIndex;
+    this._element.style.pointerEvents = "none";
 
-  gsap.set(element, {
-    opacity: options.pointerOpacity,
-    backgroundColor: options.pointerColor,
-    borderRadius: options.pointerBorderRadius,
-    width: options.pointerSize,
-    height: options.pointerSize,
-    top: -options.pointerSize,
-    left: -options.pointerSize,
-  });
+    gsap.set(this._element, {
+      opacity: this._options.pointerOpacity,
+      backgroundColor: this._options.pointerColor,
+      borderRadius: this._options.pointerBorderRadius,
+      width: this._options.pointerSize,
+      height: this._options.pointerSize,
+      top: -this._options.pointerSize,
+      left: -this._options.pointerSize,
+    });
+  }
 
-  const normalMode: VariableCursorResult["normalMode"] = () => {
-    if (current === VariableCursorMode.NORMAL) return;
+  setNormalMode(): void {
+    if (this._currentMode === VariableCursorMode.NORMAL) return;
 
-    current = VariableCursorMode.NORMAL;
+    this._currentMode = VariableCursorMode.NORMAL;
 
-    gsap.to(element, {
-      width: options.pointerSize,
-      height: options.pointerSize,
-      opacity: options.pointerOpacity,
-      borderRadius: options.pointerBorderRadius,
-      duration: options.normalDuration,
+    gsap.to(this._element, {
+      width: this._options.pointerSize,
+      height: this._options.pointerSize,
+      opacity: this._options.pointerOpacity,
+      borderRadius: this._options.pointerBorderRadius,
+      duration: this._options.normalDuration,
       ease: Power2.easeOut,
       overwrite: true,
     });
-  };
+  }
 
-  const stickyMode: VariableCursorResult["stickyMode"] = (target) => {
-    if (current === VariableCursorMode.STICKY) return;
+  setStickyMode(target: HTMLElement): void {
+    if (this._currentMode === VariableCursorMode.STICKY) return;
 
-    current = VariableCursorMode.STICKY;
+    this._currentMode = VariableCursorMode.STICKY;
 
     const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = target;
 
-    gsap.to(element, {
+    gsap.to(this._element, {
       top: offsetTop + offsetHeight / 2,
       left: offsetLeft + offsetWidth / 2,
       width: offsetWidth,
       height: offsetHeight,
-      opacity: options.stickyOpacity,
+      opacity: this._options.stickyOpacity,
       borderRadius: `${Math.min(offsetHeight, offsetWidth) * 0.1}px`,
-      duration: options.stickyDuration,
+      duration: this._options.stickyDuration,
       ease: Power2.easeInOut,
       overwrite: true,
     });
-  };
+  }
 
-  const expandedMode: VariableCursorResult["expandedMode"] = () => {
-    if (current === VariableCursorMode.EXPANDED) return;
+  setExpandedMode(): void {
+    if (this._currentMode === VariableCursorMode.EXPANDED) return;
 
-    current = VariableCursorMode.EXPANDED;
+    this._currentMode = VariableCursorMode.EXPANDED;
 
-    gsap.to(element, {
-      width: options.pointerSize * options.expandedScale,
-      height: options.pointerSize * options.expandedScale,
-      opacity: options.expandedOpacity,
-      borderRadius: options.pointerBorderRadius,
-      duration: options.expandedDuration,
+    gsap.to(this._element, {
+      width: this._options.pointerSize * this._options.expandedScale,
+      height: this._options.pointerSize * this._options.expandedScale,
+      opacity: this._options.expandedOpacity,
+      borderRadius: this._options.pointerBorderRadius,
+      duration: this._options.expandedDuration,
       ease: Power2.easeOut,
       overwrite: true,
     });
-  };
+  }
 
-  const handleMouseMove = (event: MouseEvent) => {
+  private _handleMouseMove = (event: MouseEvent): void => {
     const { pageX, pageY, clientX, clientY } = event;
 
-    if (current === VariableCursorMode._NONE) {
-      gsap.set(element, {
+    if (this._currentMode === VariableCursorMode._NONE) {
+      gsap.set(this._element, {
         top: pageY,
         left: pageX,
       });
-      normalMode();
+      this.setNormalMode();
       return;
     }
 
-    if (current !== VariableCursorMode.STICKY) {
-      gsap.to(element, {
+    if (this.currentMode !== VariableCursorMode.STICKY) {
+      gsap.to(this._element, {
         top: pageY,
         left: pageX,
-        duration: options.moveDuration,
+        duration: this._options.moveDuration,
       });
     }
 
@@ -157,43 +155,32 @@ export const variableCursor: VariableCursor = (_options = {}) => {
       .find((el) => el.hasAttribute(MODE_ATTRIBUTE_NAME));
 
     if (!target) {
-      if (current !== VariableCursorMode.NORMAL) normalMode();
+      this.setNormalMode();
       return;
     }
 
-    const cursorType =
-      (target.getAttribute(MODE_ATTRIBUTE_NAME) as VariableCursorMode) ||
-      VariableCursorMode.NORMAL;
+    const cursorMode = target.getAttribute(
+      MODE_ATTRIBUTE_NAME
+    ) as VariableCursorMode;
 
-    switch (cursorType) {
-      case VariableCursorMode.STICKY:
-        stickyMode(target as HTMLElement);
-        return;
-      case VariableCursorMode.EXPANDED:
-        expandedMode();
-        return;
-      default:
-        return;
+    if (cursorMode === VariableCursorMode.NORMAL) {
+      this.setNormalMode();
+    } else if (cursorMode === VariableCursorMode.STICKY) {
+      this.setStickyMode(target as HTMLElement);
+    } else if (cursorMode === VariableCursorMode.EXPANDED) {
+      this.setExpandedMode();
     }
   };
 
-  const mount: VariableCursorResult["mount"] = (to = document.body) => {
-    window.addEventListener("mousemove", handleMouseMove);
-    to.appendChild(element);
-  };
+  mount(to = document.body): void {
+    window.addEventListener("mousemove", this._handleMouseMove);
+    to.appendChild(this._element);
+  }
 
-  const unmount: VariableCursorResult["unmount"] = () => {
-    window.removeEventListener("mousemove", handleMouseMove);
-    element.remove();
-  };
+  unmount(): void {
+    window.removeEventListener("mousemove", this._handleMouseMove);
+    this._element.remove();
+  }
+}
 
-  return {
-    element,
-    mount,
-    unmount,
-    getCurrentMode,
-    normalMode,
-    stickyMode,
-    expandedMode,
-  };
-};
+export default VariableCursor;
