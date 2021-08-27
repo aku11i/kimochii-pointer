@@ -31,11 +31,11 @@
   "homepage": "https://github.com/aku11i/kimochii-pointer#readme",
   "dependencies": {},
   "peerDependencies": {
-    "gsap": "^3.x"
+    "gsap": "3.x"
   },
   "devDependencies": {
     "@types/node": "^16.7.2",
-    "gsap": "^3.7.1",
+    "gsap": "3.7.1",
     "typescript": "^4.3.5",
     "vite": "^2.5.1"
   }
