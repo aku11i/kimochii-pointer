@@ -52,6 +52,9 @@ e.g.:
 <!-- Pointer sticks to the button. -->
 <button data-kimochii-pointer="sticky">BUTTON</button>
 
+<!-- Pointer stretches vertically on text content. -->
+<span data-kimochii-pointer="text">Lorem ipsum dol...</a>
+
 <!-- Pointer is expanded while it is on the link. -->
 <a data-kimochii-pointer="expanded">LINK</a>
 ```
