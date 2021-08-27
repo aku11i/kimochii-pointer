@@ -52,6 +52,6 @@ e.g.:
 <!-- Pointer sticks to the button. -->
 <button data-kimochii-pointer="sticky">BUTTON</button>
 
-<!-- Pointer is extended while it is on the link. -->
-<a data-kimochii-pointer="extended">LINK</a>
+<!-- Pointer is expanded while it is on the link. -->
+<a data-kimochii-pointer="expanded">LINK</a>
 ```
