@@ -48,6 +48,8 @@ export class KimochiiPointer {
     return this._element;
   }
 
+  private _targetElement: Element | undefined;
+
   private _currentMode: PointerMode;
   public get currentMode(): PointerMode {
     return this._currentMode;
@@ -144,18 +146,21 @@ export class KimochiiPointer {
       });
     }
 
-    const target = document
+    const newTarget = document
       .elementsFromPoint(clientX, clientY)
       .find((el) => el.hasAttribute(MODE_ATTRIBUTE_NAME));
 
-    if (!target) {
+    if (!newTarget) {
+      this._targetElement = undefined;
       if (this._currentMode !== PointerMode.NORMAL) {
         this.setNormalMode();
       }
       return;
     }
 
-    const cursorMode = target.getAttribute(MODE_ATTRIBUTE_NAME) as PointerMode;
+    const cursorMode = newTarget.getAttribute(
+      MODE_ATTRIBUTE_NAME
+    ) as PointerMode;
 
     switch (cursorMode) {
       case PointerMode.NORMAL: {
@@ -165,8 +170,13 @@ export class KimochiiPointer {
       }
 
       case PointerMode.STICKY: {
-        if (this._currentMode === PointerMode.STICKY) break;
-        this.setStickyMode(target as HTMLElement);
+        if (
+          this._currentMode === PointerMode.STICKY &&
+          newTarget === this._targetElement
+        ) {
+          break;
+        }
+        this.setStickyMode(newTarget as HTMLElement);
         break;
       }
 
@@ -176,6 +186,8 @@ export class KimochiiPointer {
         break;
       }
     }
+
+    this._targetElement = newTarget;
   };
 
   mount(to = document.body): void {
