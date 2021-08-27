@@ -55,3 +55,28 @@ e.g.:
 <!-- Pointer is expanded while it is on the link. -->
 <a data-kimochii-pointer="expanded">LINK</a>
 ```
+
+## Contribution
+
+### Setup
+
+```sh
+git clone https://github.com/aku11i/kimochii-pointer.git
+cd kimochii-pointer
+
+yarn install
+```
+
+### Development
+
+```sh
+yarn dev
+```
+
+Demo page (`http://localhost:3000/demo.html`) will be opened automatically.
+
+Then you can start development by edit `demo.html`, `demo.ts`, `src/kimochiiPointer.ts`.
+
+### Test
+
+There are no tests yet. 😱
