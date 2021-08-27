@@ -115,7 +115,7 @@ export class KimochiiPointer {
     this._mousePosition.x = pageX;
     this._mousePosition.y = pageY;
 
-    if (!this._currentShape?.cancelPointerMove) {
+    if (!this._currentShape?.fixPosition) {
       this.apply({
         top: pageY,
         left: pageX,
