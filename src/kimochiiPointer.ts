@@ -27,11 +27,13 @@ export const defaultStyles: Partial<CSSStyleDeclaration> = {
 export type PointerOptions = {
   defaultStyles?: Partial<CSSStyleDeclaration>;
   pointerDuration?: number;
+  clickedOpacity?: number;
 };
 
 export const pointerDefaultOptions: Required<PointerOptions> = {
   defaultStyles,
   pointerDuration: 0.06,
+  clickedOpacity: 0.7,
 } as const;
 
 export type MousePosition = {
@@ -43,6 +45,7 @@ export class KimochiiPointer {
   private readonly _options: Required<PointerOptions>;
 
   private readonly _mousePosition: MousePosition;
+  private _isClicking: boolean;
 
   private readonly _element: HTMLElement;
   public get element(): HTMLElement {
@@ -62,6 +65,7 @@ export class KimochiiPointer {
     };
 
     this._mousePosition = { x: -1, y: -1 };
+    this._isClicking = false;
 
     this._element = document.createElement("div");
 
@@ -148,13 +152,27 @@ export class KimochiiPointer {
     this.applyShape(shape, newTarget as HTMLElement);
   };
 
+  private _handleMouseDown = () => {
+    this._isClicking = true;
+    this.apply({ opacity: this._options.clickedOpacity });
+  };
+
+  private _handleMouseUp = () => {
+    this._isClicking = false;
+    this.apply({ opacity: this._options.defaultStyles.opacity });
+  };
+
   mount(to = document.body): void {
     window.addEventListener("mousemove", this._handleMouseMove);
+    window.addEventListener("mousedown", this._handleMouseDown);
+    window.addEventListener("mouseup", this._handleMouseUp);
     to.appendChild(this._element);
   }
 
   unmount(): void {
     window.removeEventListener("mousemove", this._handleMouseMove);
+    window.removeEventListener("mousedown", this._handleMouseDown);
+    window.removeEventListener("mouseup", this._handleMouseUp);
     this._element.remove();
   }
 
@@ -162,7 +180,10 @@ export class KimochiiPointer {
     gsap.to(this._element, {
       duration: 0,
       ease: Power2.easeInOut,
+
       ...vars,
+
+      ...(this._isClicking ? { opacity: this._options.clickedOpacity } : {}),
     });
   }
 }
