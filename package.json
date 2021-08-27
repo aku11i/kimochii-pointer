@@ -1,13 +1,13 @@
 {
-  "name": "variable-cursor",
+  "name": "kimochii-pointer",
   "version": "0.0.1",
   "description": "A variable mouse cursor implementation for JavaScript.",
-  "main": "./dist/variable-cursor.cjs.js",
-  "module": "./dist/variable-cursor.es.js",
+  "main": "./dist/kimochii-pointer.cjs.js",
+  "module": "./dist/kimochii-pointer.es.js",
   "exports": {
     ".": {
-      "import": "./dist/variable-cursor.es.js",
-      "require": "./dist/variable-cursor.cjs.js"
+      "import": "./dist/kimochii-pointer.es.js",
+      "require": "./dist/kimochii-pointer.cjs.js"
     }
   },
   "files": [
@@ -20,15 +20,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aku11i/variable-cursor.git"
+    "url": "git+https://github.com/aku11i/kimochii-pointer.git"
   },
   "keywords": [],
   "author": "aku11i",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aku11i/variable-cursor/issues"
+    "url": "https://github.com/aku11i/kimochii-pointer/issues"
   },
-  "homepage": "https://github.com/aku11i/variable-cursor#readme",
+  "homepage": "https://github.com/aku11i/kimochii-pointer#readme",
   "dependencies": {},
   "peerDependencies": {
     "gsap": "^3.x"
