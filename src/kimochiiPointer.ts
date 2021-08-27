@@ -69,7 +69,7 @@ export class KimochiiPointer {
     this._element.style.zIndex = this._options.zIndex;
     this._element.style.pointerEvents = "none";
 
-    gsap.set(this._element, {
+    this.set({
       opacity: this._options.pointerOpacity,
       backgroundColor: this._options.pointerColor,
       borderRadius: this._options.pointerBorderRadius,
@@ -83,7 +83,7 @@ export class KimochiiPointer {
   modeNormal(): void {
     this._currentMode = PointerMode.NORMAL;
 
-    gsap.to(this._element, {
+    this.set({
       width: this._options.pointerSize,
       height: this._options.pointerSize,
       opacity: this._options.pointerOpacity,
@@ -99,7 +99,7 @@ export class KimochiiPointer {
 
     const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = target;
 
-    gsap.to(this._element, {
+    this.set({
       top: offsetTop + offsetHeight / 2,
       left: offsetLeft + offsetWidth / 2,
       width: offsetWidth,
@@ -115,7 +115,7 @@ export class KimochiiPointer {
   modeExpanded(): void {
     this._currentMode = PointerMode.EXPANDED;
 
-    gsap.to(this._element, {
+    this.set({
       width: this._options.pointerSize * this._options.expandedScale,
       height: this._options.pointerSize * this._options.expandedScale,
       opacity: this._options.expandedOpacity,
@@ -130,7 +130,7 @@ export class KimochiiPointer {
     const { pageX, pageY, clientX, clientY } = event;
 
     if (this._currentMode === PointerMode._NONE) {
-      gsap.set(this._element, {
+      this.set({
         top: pageY,
         left: pageX,
       });
@@ -139,7 +139,7 @@ export class KimochiiPointer {
     }
 
     if (this.currentMode !== PointerMode.STICKY) {
-      gsap.to(this._element, {
+      this.set({
         top: pageY,
         left: pageX,
         duration: this._options.moveDuration,
@@ -198,6 +198,10 @@ export class KimochiiPointer {
   unmount(): void {
     window.removeEventListener("mousemove", this._handleMouseMove);
     this._element.remove();
+  }
+
+  set(vars: gsap.TweenVars): void {
+    gsap.to(this._element, { duration: 0, ...vars });
   }
 }
 
