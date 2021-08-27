@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/aku11i/kimochii-pointer/compare/v0.4.0...v0.4.1) (2021-08-27)
+
+
+### Features
+
+* Add shape "outline" ([#17](https://github.com/aku11i/kimochii-pointer/issues/17)) ([3de8ab5](https://github.com/aku11i/kimochii-pointer/commit/3de8ab5a43e3fbd8a7d2e14c013e326daa7924fe))
+
 ## [0.4.0](https://github.com/aku11i/kimochii-pointer/compare/v0.3.0...v0.4.0) (2021-08-27)
 
 
