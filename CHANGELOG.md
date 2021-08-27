@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/aku11i/kimochii-pointer/compare/v0.5.0...v0.5.1) (2021-08-27)
+
+
+### Features
+
+* クリック中はopacityを上げる ([#19](https://github.com/aku11i/kimochii-pointer/issues/19)) ([62f0694](https://github.com/aku11i/kimochii-pointer/commit/62f069456bcc73c3357e81f119dfcd1bc4b22ca5))
+
 ## [0.5.0](https://github.com/aku11i/kimochii-pointer/compare/v0.4.1...v0.5.0) (2021-08-27)
 
 
