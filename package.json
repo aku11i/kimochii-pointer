@@ -4,7 +4,7 @@
   "description": "A variable mouse cursor implementation for JavaScript.",
   "main": "./dist/kimochii-pointer.cjs.js",
   "module": "./dist/kimochii-pointer.es.js",
-  "types": "./dist/kimochiiPointer.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/kimochii-pointer.es.js",
