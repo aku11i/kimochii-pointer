@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/aku11i/kimochii-pointer/compare/v0.3.0...v0.4.0) (2021-08-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Shape.cancelMouseMove -> Shape.fixPosition (#16)
+* Remove "useShape" / Add "getShape" "applyShape" (#14)
+
+### Features
+
+* テキスト用のShapeを追加 ([#15](https://github.com/aku11i/kimochii-pointer/issues/15)) ([026b736](https://github.com/aku11i/kimochii-pointer/commit/026b73618db80ea8cb766d988d14ff87e38bdeb9))
+
+
+* Remove "useShape" / Add "getShape" "applyShape" ([#14](https://github.com/aku11i/kimochii-pointer/issues/14)) ([d810d6e](https://github.com/aku11i/kimochii-pointer/commit/d810d6ead7fc33604d96d0cc71364e3782eebea5))
+* Shape.cancelMouseMove -> Shape.fixPosition ([#16](https://github.com/aku11i/kimochii-pointer/issues/16)) ([dfac25a](https://github.com/aku11i/kimochii-pointer/commit/dfac25a5fff0c845b539a052d225c59699b3eabb))
+
 ## [0.3.0](https://github.com/aku11i/kimochii-pointer/compare/v0.1.3...v0.3.0) (2021-08-27)
 
 
