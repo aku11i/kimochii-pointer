@@ -2,7 +2,11 @@
 
 A smooth and variable mouse pointer for JavaScript.
 
-[![](./assets/thumbnail.png)](https://twitter.com/aku11i/status/1430803913876271109 "preview")
+[![](./assets/thumbnail.png)](https://twitter.com/aku11i/status/1430803913876271109 "preview (Twitter)")
+
+## Supported Platforms
+
+Tested on latest version of major browsers (Chrome, Safari, Firefox).
 
 ## Installation
 
