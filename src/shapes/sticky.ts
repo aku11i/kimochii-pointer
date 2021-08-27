@@ -13,7 +13,8 @@ export default shapeFactory((pointer) => {
 
   return {
     name: "sticky",
-    cancelPointerMove: true,
+
+    fixPosition: true,
 
     transform: (target) => {
       return {

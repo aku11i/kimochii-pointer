@@ -1,6 +1,9 @@
 export type Shape = {
   name: string;
-  cancelPointerMove?: boolean;
+
+  fixPosition?: boolean;
+
   transform: (target: HTMLElement) => gsap.TweenVars;
+
   restore: () => gsap.TweenVars;
 };
