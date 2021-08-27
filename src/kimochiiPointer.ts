@@ -4,6 +4,7 @@ import { Shape } from "./shape";
 import stickyShapeFactory from "./shapes/sticky";
 import expandedShapeFactory from "./shapes/expanded";
 import hiddenShapeFactory from "./shapes/hidden";
+import textShapeFactory from "./shapes/text";
 
 export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
 
@@ -74,6 +75,7 @@ export class KimochiiPointer {
     this.addShape(stickyShapeFactory(this._element));
     this.addShape(expandedShapeFactory(this._element));
     this.addShape(hiddenShapeFactory(this._element));
+    this.addShape(textShapeFactory(this._element));
   }
 
   addShape(shape: Shape): void {
