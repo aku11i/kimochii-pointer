@@ -82,7 +82,7 @@ export class KimochiiPointer {
 
   clearShape(): void {
     if (this._currentShape) {
-      this.set(this._currentShape.restore());
+      this.apply(this._currentShape.restore());
     }
 
     this._currentShape = undefined;
@@ -95,26 +95,26 @@ export class KimochiiPointer {
     if (this._currentShape === shape) return;
 
     if (this._currentShape) {
-      this.set(this._currentShape.restore());
+      this.apply(this._currentShape.restore());
     }
 
     this._currentShape = shape;
     const vars = shape.transform(target);
-    this.set(vars);
+    this.apply(vars);
   }
 
   private _handleMouseMove = (event: MouseEvent): void => {
     const { pageX, pageY, clientX, clientY } = event;
 
     if (this._mousePosition.x < 0 && this._mousePosition.y < 0) {
-      this.set({ top: pageY, left: pageX });
+      this.apply({ top: pageY, left: pageX });
     }
 
     this._mousePosition.x = pageX;
     this._mousePosition.y = pageY;
 
     if (!this._currentShape?.cancelPointerMove) {
-      this.set({
+      this.apply({
         top: pageY,
         left: pageX,
         duration: this._options.pointerDuration,
@@ -151,7 +151,7 @@ export class KimochiiPointer {
     this._element.remove();
   }
 
-  set(vars: gsap.TweenVars): void {
+  apply(vars: gsap.TweenVars): void {
     gsap.to(this._element, {
       duration: 0,
       ease: Power2.easeInOut,
