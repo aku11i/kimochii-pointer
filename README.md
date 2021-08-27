@@ -75,7 +75,7 @@ yarn dev
 
 Demo page (`http://localhost:3000/demo.html`) will be opened automatically.
 
-Then you can start development by edit `demo.html`, `demo.ts`, `src/kimochiiPointer.ts`.
+Then you can start development by editing `demo.html`, `demo.ts`, `src/kimochiiPointer.ts`.
 
 ### Test
 
