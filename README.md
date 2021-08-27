@@ -4,7 +4,7 @@ A smooth and variable mouse pointer for JavaScript.
 
 ## Installation
 
-Install this library:
+Install this package:
 
 ```sh
 npm install --save kimochii-pointer
@@ -29,7 +29,7 @@ const pointer = new KimochiiPointer();
 pointer.mount();
 ```
 
-Add custom attribute `data-kimochii-pointer` to Element which you want to change cursor.
+Add custom attribute `data-kimochii-pointer` to the element you want to change cursor.
 
 e.g.:
 
