@@ -1,47 +1,47 @@
 import { gsap, Power2 } from "gsap";
+import { Shape } from "./shape";
+
+import stickyShapeFactory from "./shapes/sticky";
+import expandedShapeFactory from "./shapes/expanded";
+import hiddenShapeFactory from "./shapes/hidden";
 
 export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
 
-export enum PointerMode {
-  NORMAL = "normal",
-  STICKY = "sticky",
-  EXPANDED = "expanded",
-  /** Only used for initializing. */
-  _NONE = "none",
-}
+export const defaultStyles: Partial<CSSStyleDeclaration> = {
+  position: "absolute",
+  transform: "translate(-50%, -50%)",
+  zIndex: "100000",
+  pointerEvents: "none",
+
+  opacity: "0.5",
+  backgroundColor: "gray",
+  borderRadius: "50%",
+
+  top: "-30px",
+  left: "-30px",
+  width: "30px",
+  height: "30px",
+};
 
 export type PointerOptions = {
-  pointerSize?: number;
-  pointerColor?: string;
-  pointerOpacity?: number;
-  pointerBorderRadius?: string;
-  normalDuration?: number;
-  stickyDuration?: number;
-  stickyOpacity?: number;
-  moveDuration?: number;
-  expandedScale?: number;
-  expandedDuration?: number;
-  expandedOpacity?: number;
-  zIndex?: string;
+  defaultStyles?: Partial<CSSStyleDeclaration>;
+  pointerDuration?: number;
 };
 
 export const pointerDefaultOptions: Required<PointerOptions> = {
-  pointerSize: 30,
-  pointerColor: "gray",
-  pointerOpacity: 0.5,
-  pointerBorderRadius: "50%",
-  normalDuration: 0.1,
-  stickyDuration: 0.15,
-  stickyOpacity: 0.3,
-  moveDuration: 0.1,
-  expandedScale: 2,
-  expandedDuration: 0.1,
-  expandedOpacity: 0.4,
-  zIndex: "100000",
+  defaultStyles,
+  pointerDuration: 0.06,
 } as const;
+
+export type MousePosition = {
+  x: number;
+  y: number;
+};
 
 export class KimochiiPointer {
   private readonly _options: Required<PointerOptions>;
+
+  private readonly _mousePosition: MousePosition;
 
   private readonly _element: HTMLElement;
   public get element(): HTMLElement {
@@ -50,10 +50,9 @@ export class KimochiiPointer {
 
   private _targetElement: Element | undefined;
 
-  private _currentMode: PointerMode;
-  public get currentMode(): PointerMode {
-    return this._currentMode;
-  }
+  private _currentShape: Shape | undefined;
+
+  private _shapes: Record<string, Shape | undefined>;
 
   constructor(userOptions: PointerOptions = {}) {
     this._options = {
@@ -61,131 +60,83 @@ export class KimochiiPointer {
       ...userOptions,
     };
 
+    this._mousePosition = { x: -1, y: -1 };
+
     this._element = document.createElement("div");
-    this._currentMode = PointerMode._NONE;
 
-    this._element.style.position = "absolute";
-    this._element.style.transform = "translate(-50%, -50%)";
-    this._element.style.zIndex = this._options.zIndex;
-    this._element.style.pointerEvents = "none";
-
-    this.set({
-      opacity: this._options.pointerOpacity,
-      backgroundColor: this._options.pointerColor,
-      borderRadius: this._options.pointerBorderRadius,
-      width: this._options.pointerSize,
-      height: this._options.pointerSize,
-      top: -this._options.pointerSize,
-      left: -this._options.pointerSize,
+    Object.entries(this._options.defaultStyles).forEach(([key, value]) => {
+      // @ts-ignore
+      this._element.style[key] = value;
     });
+
+    this._shapes = {};
+
+    this.addShape(stickyShapeFactory(this._element));
+    this.addShape(expandedShapeFactory(this._element));
+    this.addShape(hiddenShapeFactory(this._element));
   }
 
-  modeNormal(): void {
-    this._currentMode = PointerMode.NORMAL;
-
-    this.set({
-      width: this._options.pointerSize,
-      height: this._options.pointerSize,
-      opacity: this._options.pointerOpacity,
-      borderRadius: this._options.pointerBorderRadius,
-      duration: this._options.normalDuration,
-      ease: Power2.easeOut,
-      overwrite: true,
-    });
+  addShape(shape: Shape): void {
+    this._shapes[shape.name] = shape;
   }
 
-  modeSticky(target: HTMLElement): void {
-    this._currentMode = PointerMode.STICKY;
+  clearShape(): void {
+    if (this._currentShape) {
+      this.set(this._currentShape.restore());
+    }
 
-    const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = target;
-
-    this.set({
-      top: offsetTop + offsetHeight / 2,
-      left: offsetLeft + offsetWidth / 2,
-      width: offsetWidth,
-      height: offsetHeight,
-      opacity: this._options.stickyOpacity,
-      borderRadius: `${Math.min(offsetHeight, offsetWidth) * 0.1}px`,
-      duration: this._options.stickyDuration,
-      ease: Power2.easeInOut,
-      overwrite: true,
-    });
+    this._currentShape = undefined;
   }
 
-  modeExpanded(): void {
-    this._currentMode = PointerMode.EXPANDED;
+  useShape(name: string, target: HTMLElement): void {
+    const shape = this._shapes[name];
+    if (!shape) throw new Error(`The shape "${name}" was not found.`);
 
-    this.set({
-      width: this._options.pointerSize * this._options.expandedScale,
-      height: this._options.pointerSize * this._options.expandedScale,
-      opacity: this._options.expandedOpacity,
-      borderRadius: this._options.pointerBorderRadius,
-      duration: this._options.expandedDuration,
-      ease: Power2.easeOut,
-      overwrite: true,
-    });
+    if (this._currentShape === shape) return;
+
+    if (this._currentShape) {
+      this.set(this._currentShape.restore());
+    }
+
+    this._currentShape = shape;
+    const vars = shape.transform(target);
+    this.set(vars);
   }
 
   private _handleMouseMove = (event: MouseEvent): void => {
     const { pageX, pageY, clientX, clientY } = event;
 
-    if (this._currentMode === PointerMode._NONE) {
-      this.set({
-        top: pageY,
-        left: pageX,
-      });
-      this.modeNormal();
-      return;
+    if (this._mousePosition.x < 0 && this._mousePosition.y < 0) {
+      this.set({ top: pageY, left: pageX });
     }
 
-    if (this.currentMode !== PointerMode.STICKY) {
+    this._mousePosition.x = pageX;
+    this._mousePosition.y = pageY;
+
+    if (!this._currentShape?.cancelPointerMove) {
       this.set({
         top: pageY,
         left: pageX,
-        duration: this._options.moveDuration,
+        duration: this._options.pointerDuration,
       });
     }
 
     const newTarget = document
       .elementsFromPoint(clientX, clientY)
-      .find((el) => el.hasAttribute(MODE_ATTRIBUTE_NAME));
+      .find((el) => el.getAttribute(MODE_ATTRIBUTE_NAME));
 
     if (!newTarget) {
       this._targetElement = undefined;
-      if (this._currentMode !== PointerMode.NORMAL) {
-        this.modeNormal();
+      if (this._currentShape) {
+        this.clearShape();
       }
       return;
     }
 
-    const cursorMode = newTarget.getAttribute(
-      MODE_ATTRIBUTE_NAME
-    ) as PointerMode;
+    if (this._targetElement === newTarget) return;
 
-    switch (cursorMode) {
-      case PointerMode.NORMAL: {
-        if (this._currentMode === PointerMode.NORMAL) break;
-        this.modeNormal();
-        break;
-      }
-
-      case PointerMode.STICKY: {
-        if (
-          this._currentMode === PointerMode.STICKY &&
-          newTarget === this._targetElement
-        ) {
-          break;
-        }
-        this.modeSticky(newTarget as HTMLElement);
-        break;
-      }
-
-      case PointerMode.EXPANDED: {
-        if (this._currentMode === PointerMode.EXPANDED) break;
-        this.modeExpanded();
-        break;
-      }
-    }
+    const shapeName = newTarget.getAttribute(MODE_ATTRIBUTE_NAME) as string;
+    this.useShape(shapeName, newTarget as HTMLElement);
 
     this._targetElement = newTarget;
   };
@@ -201,7 +152,11 @@ export class KimochiiPointer {
   }
 
   set(vars: gsap.TweenVars): void {
-    gsap.to(this._element, { duration: 0, ...vars });
+    gsap.to(this._element, {
+      duration: 0,
+      ease: Power2.easeInOut,
+      ...vars,
+    });
   }
 }
 
