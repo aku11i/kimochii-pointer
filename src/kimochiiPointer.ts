@@ -80,7 +80,7 @@ export class KimochiiPointer {
     });
   }
 
-  setNormalMode(): void {
+  modeNormal(): void {
     this._currentMode = PointerMode.NORMAL;
 
     gsap.to(this._element, {
@@ -94,7 +94,7 @@ export class KimochiiPointer {
     });
   }
 
-  setStickyMode(target: HTMLElement): void {
+  modeSticky(target: HTMLElement): void {
     this._currentMode = PointerMode.STICKY;
 
     const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = target;
@@ -112,7 +112,7 @@ export class KimochiiPointer {
     });
   }
 
-  setExpandedMode(): void {
+  modeExpanded(): void {
     this._currentMode = PointerMode.EXPANDED;
 
     gsap.to(this._element, {
@@ -134,7 +134,7 @@ export class KimochiiPointer {
         top: pageY,
         left: pageX,
       });
-      this.setNormalMode();
+      this.modeNormal();
       return;
     }
 
@@ -153,7 +153,7 @@ export class KimochiiPointer {
     if (!newTarget) {
       this._targetElement = undefined;
       if (this._currentMode !== PointerMode.NORMAL) {
-        this.setNormalMode();
+        this.modeNormal();
       }
       return;
     }
@@ -165,7 +165,7 @@ export class KimochiiPointer {
     switch (cursorMode) {
       case PointerMode.NORMAL: {
         if (this._currentMode === PointerMode.NORMAL) break;
-        this.setNormalMode();
+        this.modeNormal();
         break;
       }
 
@@ -176,13 +176,13 @@ export class KimochiiPointer {
         ) {
           break;
         }
-        this.setStickyMode(newTarget as HTMLElement);
+        this.modeSticky(newTarget as HTMLElement);
         break;
       }
 
       case PointerMode.EXPANDED: {
         if (this._currentMode === PointerMode.EXPANDED) break;
-        this.setExpandedMode();
+        this.modeExpanded();
         break;
       }
     }
