@@ -32,7 +32,16 @@ Initialize in your entry point.
 import { KimochiiPointer } from "kimochii-pointer";
 
 const pointer = new KimochiiPointer();
+
 pointer.mount();
+```
+
+If you want to hide default mouse cursor of operation system, add below style to your global css:
+
+```css
+* {
+  cursor: none !important;
+}
 ```
 
 Add custom attribute `data-kimochii-pointer` to the element you want to change cursor.
