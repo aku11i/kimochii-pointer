@@ -1,9 +1,9 @@
-import { VariableCursor } from "./src/variableCursor";
+import { KimochiiPointer } from "./src/kimochiiPointer";
 
 await new Promise<void>((resolve) =>
   window.addEventListener("DOMContentLoaded", () => resolve())
 );
 
-const cursor = new VariableCursor();
+const pointer = new KimochiiPointer();
 
-cursor.mount();
+pointer.mount();

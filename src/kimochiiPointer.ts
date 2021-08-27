@@ -1,16 +1,16 @@
 import { gsap, Power2 } from "gsap";
 
-export const MODE_ATTRIBUTE_NAME = "data-variable-cursor";
+export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
 
-export enum VariableCursorMode {
+export enum PointerMode {
   NORMAL = "normal",
   STICKY = "sticky",
   EXPANDED = "expanded",
-  /** Only used in initializing. */
+  /** Only used for initializing. */
   _NONE = "none",
 }
 
-export type VariableCursorOptions = {
+export type PointerOptions = {
   pointerSize?: number;
   pointerColor?: string;
   pointerOpacity?: number;
@@ -25,7 +25,7 @@ export type VariableCursorOptions = {
   zIndex?: string;
 };
 
-export const variableCursorDefaultOptions: Required<VariableCursorOptions> = {
+export const pointerDefaultOptions: Required<PointerOptions> = {
   pointerSize: 30,
   pointerColor: "gray",
   pointerOpacity: 0.5,
@@ -40,27 +40,27 @@ export const variableCursorDefaultOptions: Required<VariableCursorOptions> = {
   zIndex: "100000",
 } as const;
 
-export class VariableCursor {
-  private readonly _options: Required<VariableCursorOptions>;
+export class KimochiiPointer {
+  private readonly _options: Required<PointerOptions>;
 
   private readonly _element: HTMLElement;
   public get element(): HTMLElement {
     return this._element;
   }
 
-  private _currentMode: VariableCursorMode;
-  public get currentMode(): VariableCursorMode {
+  private _currentMode: PointerMode;
+  public get currentMode(): PointerMode {
     return this._currentMode;
   }
 
-  constructor(userOptions: VariableCursorOptions = {}) {
+  constructor(userOptions: PointerOptions = {}) {
     this._options = {
-      ...variableCursorDefaultOptions,
+      ...pointerDefaultOptions,
       ...userOptions,
     };
 
     this._element = document.createElement("div");
-    this._currentMode = VariableCursorMode._NONE;
+    this._currentMode = PointerMode._NONE;
 
     this._element.style.position = "absolute";
     this._element.style.transform = "translate(-50%, -50%)";
@@ -79,9 +79,9 @@ export class VariableCursor {
   }
 
   setNormalMode(): void {
-    if (this._currentMode === VariableCursorMode.NORMAL) return;
+    if (this._currentMode === PointerMode.NORMAL) return;
 
-    this._currentMode = VariableCursorMode.NORMAL;
+    this._currentMode = PointerMode.NORMAL;
 
     gsap.to(this._element, {
       width: this._options.pointerSize,
@@ -95,9 +95,9 @@ export class VariableCursor {
   }
 
   setStickyMode(target: HTMLElement): void {
-    if (this._currentMode === VariableCursorMode.STICKY) return;
+    if (this._currentMode === PointerMode.STICKY) return;
 
-    this._currentMode = VariableCursorMode.STICKY;
+    this._currentMode = PointerMode.STICKY;
 
     const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = target;
 
@@ -115,9 +115,9 @@ export class VariableCursor {
   }
 
   setExpandedMode(): void {
-    if (this._currentMode === VariableCursorMode.EXPANDED) return;
+    if (this._currentMode === PointerMode.EXPANDED) return;
 
-    this._currentMode = VariableCursorMode.EXPANDED;
+    this._currentMode = PointerMode.EXPANDED;
 
     gsap.to(this._element, {
       width: this._options.pointerSize * this._options.expandedScale,
@@ -133,7 +133,7 @@ export class VariableCursor {
   private _handleMouseMove = (event: MouseEvent): void => {
     const { pageX, pageY, clientX, clientY } = event;
 
-    if (this._currentMode === VariableCursorMode._NONE) {
+    if (this._currentMode === PointerMode._NONE) {
       gsap.set(this._element, {
         top: pageY,
         left: pageX,
@@ -142,7 +142,7 @@ export class VariableCursor {
       return;
     }
 
-    if (this.currentMode !== VariableCursorMode.STICKY) {
+    if (this.currentMode !== PointerMode.STICKY) {
       gsap.to(this._element, {
         top: pageY,
         left: pageX,
@@ -159,15 +159,13 @@ export class VariableCursor {
       return;
     }
 
-    const cursorMode = target.getAttribute(
-      MODE_ATTRIBUTE_NAME
-    ) as VariableCursorMode;
+    const cursorMode = target.getAttribute(MODE_ATTRIBUTE_NAME) as PointerMode;
 
-    if (cursorMode === VariableCursorMode.NORMAL) {
+    if (cursorMode === PointerMode.NORMAL) {
       this.setNormalMode();
-    } else if (cursorMode === VariableCursorMode.STICKY) {
+    } else if (cursorMode === PointerMode.STICKY) {
       this.setStickyMode(target as HTMLElement);
-    } else if (cursorMode === VariableCursorMode.EXPANDED) {
+    } else if (cursorMode === PointerMode.EXPANDED) {
       this.setExpandedMode();
     }
   };
@@ -183,4 +181,4 @@ export class VariableCursor {
   }
 }
 
-export default VariableCursor;
+export default KimochiiPointer;
