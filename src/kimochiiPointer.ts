@@ -88,17 +88,17 @@ export class KimochiiPointer {
     this._currentShape = undefined;
   }
 
-  useShape(name: string, target: HTMLElement): void {
-    const shape = this._shapes[name];
-    if (!shape) throw new Error(`The shape "${name}" was not found.`);
+  getShape(name: string): Shape | undefined {
+    return this._shapes[name];
+  }
 
-    if (this._currentShape === shape) return;
-
+  applyShape(shape: Shape, target: HTMLElement): void {
     if (this._currentShape) {
       this.apply(this._currentShape.restore());
     }
 
     this._currentShape = shape;
+
     const vars = shape.transform(target);
     this.apply(vars);
   }
@@ -134,11 +134,16 @@ export class KimochiiPointer {
     }
 
     if (this._targetElement === newTarget) return;
+    this._targetElement = newTarget;
 
     const shapeName = newTarget.getAttribute(MODE_ATTRIBUTE_NAME) as string;
-    this.useShape(shapeName, newTarget as HTMLElement);
+    const shape = this.getShape(shapeName);
+    if (!shape) {
+      console.warn(`The shape "${shapeName}" is not found.`);
+      return;
+    }
 
-    this._targetElement = newTarget;
+    this.applyShape(shape, newTarget as HTMLElement);
   };
 
   mount(to = document.body): void {
