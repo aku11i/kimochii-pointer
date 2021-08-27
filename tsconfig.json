@@ -3,11 +3,15 @@
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["DOM", "ESNext"],
+
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+
     "removeComments": false,
-    "noEmit": false,
     "isolatedModules": true,
     "moduleResolution": "Node",
 
@@ -24,5 +28,6 @@
 
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["src"]
 }
