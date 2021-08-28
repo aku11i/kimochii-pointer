@@ -1,9 +1,9 @@
-import { shapeFactory } from "../shapeFactory";
+import { createShapeFactory } from "../shapeFactory";
 import gsap from "gsap";
 
 const scale = 2;
 
-export default shapeFactory((pointer) => {
+export default createShapeFactory((pointer) => {
   const getter = gsap.getProperty(pointer);
 
   const backups: gsap.TweenVars = {
