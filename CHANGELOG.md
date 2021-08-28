@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.2](https://github.com/aku11i/kimochii-pointer/compare/v0.6.1...v0.6.2) (2021-08-28)
+
+
+### Features
+
+* アニメーションを滑らかにする ([#25](https://github.com/aku11i/kimochii-pointer/issues/25)) ([fbe8bef](https://github.com/aku11i/kimochii-pointer/commit/fbe8befdc25382cc9ca836e700d44edd3aafc150))
+
 ### [0.6.1](https://github.com/aku11i/kimochii-pointer/compare/v0.6.0...v0.6.1) (2021-08-28)
 
 
