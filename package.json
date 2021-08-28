@@ -13,8 +13,7 @@
   },
   "files": [
     "dist",
-    "src",
-    "tsconfig.json"
+    "src"
   ],
   "scripts": {
     "dev": "vite --open /demo.html",
