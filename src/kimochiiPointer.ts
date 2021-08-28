@@ -1,10 +1,12 @@
 import { gsap, Power2 } from "gsap";
 import { Shape } from "./shape";
 
-import stickyShapeFactory from "./shapes/sticky";
-import expandedShapeFactory from "./shapes/expanded";
-import hiddenShapeFactory from "./shapes/hidden";
-import textShapeFactory from "./shapes/text";
+import {
+  stickyShapeFactory,
+  expandedShapeFactory,
+  hiddenShapeFactory,
+  textShapeFactory,
+} from "./shapes";
 
 export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
 

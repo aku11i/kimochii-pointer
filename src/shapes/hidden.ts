@@ -1,7 +1,9 @@
 import { createShapeFactory } from "../shapeFactory";
 import gsap from "gsap";
 
-export default createShapeFactory((pointer) => {
+const NAME = "hidden";
+
+export const hiddenShapeFactory = createShapeFactory((pointer) => {
   const getter = gsap.getProperty(pointer);
 
   const backups: gsap.TweenVars = {
@@ -9,7 +11,7 @@ export default createShapeFactory((pointer) => {
   };
 
   return {
-    name: "hidden",
+    name: NAME,
 
     transform: () => {
       return {

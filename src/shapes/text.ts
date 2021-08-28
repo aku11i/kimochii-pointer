@@ -1,7 +1,9 @@
 import { createShapeFactory } from "../shapeFactory";
 import gsap from "gsap";
 
-export default createShapeFactory((pointer) => {
+const NAME = "text";
+
+export const textShapeFactory = createShapeFactory((pointer) => {
   const getter = gsap.getProperty(pointer);
 
   const backups: gsap.TweenVars = {
@@ -12,7 +14,7 @@ export default createShapeFactory((pointer) => {
   };
 
   return {
-    name: "text",
+    name: NAME,
 
     transform: (target) => {
       const targetFontSize = gsap.getProperty(target, "fontSize") as number;
