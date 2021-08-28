@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/aku11i/kimochii-pointer/compare/v0.5.1...v0.6.0) (2021-08-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename "shapeFactory" to "createShapeFactory" (#20)
+
+* Rename "shapeFactory" to "createShapeFactory" ([#20](https://github.com/aku11i/kimochii-pointer/issues/20)) ([4186fea](https://github.com/aku11i/kimochii-pointer/commit/4186fea34ecfd7a694369e2bd63321a6fd9f370f))
+
 ### [0.5.1](https://github.com/aku11i/kimochii-pointer/compare/v0.5.0...v0.5.1) (2021-08-27)
 
 
