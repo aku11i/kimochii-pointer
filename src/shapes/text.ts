@@ -18,12 +18,14 @@ export const textShapeFactory = createShapeFactory((pointer) => {
 
     transform: (target) => {
       const targetFontSize = gsap.getProperty(target, "fontSize") as number;
+      const height = targetFontSize * 1.2;
+      const width = 5 + targetFontSize * 0.05;
 
       return {
-        width: 4,
-        height: targetFontSize * 1.2,
-        borderRadius: "2px",
-        opacity: 0.5,
+        width,
+        height,
+        borderRadius: `${width / 2}px`,
+        opacity: 0.6,
         duration: 0.1,
       };
     },
