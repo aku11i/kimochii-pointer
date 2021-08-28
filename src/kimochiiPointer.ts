@@ -1,4 +1,4 @@
-import { gsap, Power2 } from "gsap";
+import { gsap } from "gsap";
 import { Shape } from "./shape";
 
 import {
@@ -156,12 +156,12 @@ export class KimochiiPointer {
 
   private _handleMouseDown = () => {
     this._isClicking = true;
-    this.apply({ opacity: this._options.clickedOpacity });
+    this.apply({ opacity: this._options.clickedOpacity, duration: 0.2 });
   };
 
   private _handleMouseUp = () => {
     this._isClicking = false;
-    this.apply({ opacity: this._options.defaultStyles.opacity });
+    this.apply({ opacity: this._options.defaultStyles.opacity, duration: 0.2 });
   };
 
   mount(to = document.body): void {
@@ -181,7 +181,6 @@ export class KimochiiPointer {
   apply(vars: gsap.TweenVars): void {
     gsap.to(this._element, {
       duration: 0,
-      ease: Power2.easeInOut,
 
       ...vars,
 

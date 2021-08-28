@@ -26,12 +26,12 @@ export const textShapeFactory = createShapeFactory((pointer) => {
         height,
         borderRadius: `${width / 2}px`,
         opacity: 0.6,
-        duration: 0.1,
+        duration: 0.2,
       };
     },
 
     restore: () => {
-      return { ...backups, duration: 0.1, overwrite: true };
+      return { ...backups, duration: 0.2, overwrite: true };
     },
   };
 });
