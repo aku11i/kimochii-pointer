@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/aku11i/kimochii-pointer/compare/v0.6.0...v0.6.1) (2021-08-28)
+
+
+### Bug Fixes
+
+* testShapeの視認性を向上させる ([#22](https://github.com/aku11i/kimochii-pointer/issues/22)) ([c5145b5](https://github.com/aku11i/kimochii-pointer/commit/c5145b5a510a8124e5d0bc8cdeac8a3870466285))
+
 ## [0.6.0](https://github.com/aku11i/kimochii-pointer/compare/v0.5.1...v0.6.0) (2021-08-28)
 
 
