@@ -28,12 +28,12 @@ export const stickyShapeFactory = createShapeFactory((pointer) => {
         borderRadius: `${
           Math.min(target.offsetHeight, target.offsetWidth) * 0.1
         }px`,
-        duration: 0.1,
+        duration: 0.2,
       };
     },
 
     restore: () => {
-      return { ...backups, duration: 0.1, overwrite: true };
+      return { ...backups, duration: 0.2, overwrite: true };
     },
   };
 });
