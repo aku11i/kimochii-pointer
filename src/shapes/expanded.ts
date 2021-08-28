@@ -3,7 +3,9 @@ import gsap from "gsap";
 
 const scale = 2;
 
-export default createShapeFactory((pointer) => {
+const NAME = "expanded";
+
+export const expandedShapeFactory = createShapeFactory((pointer) => {
   const getter = gsap.getProperty(pointer);
 
   const backups: gsap.TweenVars = {
@@ -16,7 +18,7 @@ export default createShapeFactory((pointer) => {
   const height = (getter("height") as number) * scale;
 
   return {
-    name: "expanded",
+    name: NAME,
 
     transform: () => {
       return {
