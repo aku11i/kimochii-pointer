@@ -1,9 +1,27 @@
-import { createShapeFactory } from "../shapeFactory";
 import gsap from "gsap";
+import { ShapeFactory } from "../shapeFactory";
 
 const NAME = "text";
 
-export const textShapeFactory = createShapeFactory((pointer) => {
+export type TextShapeOptions = {
+  duration?: number;
+  opacity?: number;
+};
+
+export const defaultTextShapeOptions: Required<TextShapeOptions> = {
+  duration: 0.2,
+  opacity: 0.6,
+};
+
+export const textShapeFactory: ShapeFactory<TextShapeOptions> = (
+  pointer,
+  _options = {}
+) => {
+  const options: Required<TextShapeOptions> = {
+    ...defaultTextShapeOptions,
+    ..._options,
+  };
+
   const getter = gsap.getProperty(pointer);
 
   const backups: gsap.TweenVars = {
@@ -16,22 +34,22 @@ export const textShapeFactory = createShapeFactory((pointer) => {
   return {
     name: NAME,
 
-    transform: (target) => {
+    transform: ({ target, apply }) => {
       const targetFontSize = gsap.getProperty(target, "fontSize") as number;
       const height = targetFontSize * 1.2;
       const width = 5 + targetFontSize * 0.05;
 
-      return {
+      apply({
         width,
         height,
         borderRadius: `${width / 2}px`,
-        opacity: 0.6,
-        duration: 0.2,
-      };
+        opacity: options.opacity,
+        duration: options.duration,
+      });
     },
 
-    restore: () => {
-      return { ...backups, duration: 0.2, overwrite: true };
+    restore: ({ apply }) => {
+      apply({ ...backups, duration: options.duration, overwrite: true });
     },
   };
-});
+};

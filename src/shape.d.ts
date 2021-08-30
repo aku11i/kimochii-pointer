@@ -1,9 +1,22 @@
+export type TransformProps = {
+  target: HTMLElement;
+  apply: (vars: gsap.TweenVars) => void;
+};
+
+export type RestoreProps = {
+  apply: (vars: gsap.TweenVars) => void;
+};
+
+export type ShapeConstructorProps = {
+  pointer: HTMLElement;
+};
+
 export type Shape = {
   name: string;
 
-  fixPosition?: boolean;
+  shouldFixPosition?: () => boolean;
 
-  transform: (target: HTMLElement) => gsap.TweenVars;
+  transform: (props: TransformProps) => void;
 
-  restore: () => gsap.TweenVars;
+  restore: (props: RestoreProps) => void;
 };

@@ -1,9 +1,25 @@
-import { createShapeFactory } from "../shapeFactory";
 import gsap from "gsap";
+import { ShapeFactory } from "../shapeFactory";
 
 const NAME = "hidden";
 
-export const hiddenShapeFactory = createShapeFactory((pointer) => {
+export type HiddenShapeOptions = {
+  duration?: number;
+};
+
+export const defaultHiddenShapeOptions: Required<HiddenShapeOptions> = {
+  duration: 0.2,
+};
+
+export const hiddenShapeFactory: ShapeFactory<HiddenShapeOptions> = (
+  pointer,
+  _options = {}
+) => {
+  const options: Required<HiddenShapeOptions> = {
+    ...defaultHiddenShapeOptions,
+    ..._options,
+  };
+
   const getter = gsap.getProperty(pointer);
 
   const backups: gsap.TweenVars = {
@@ -13,15 +29,15 @@ export const hiddenShapeFactory = createShapeFactory((pointer) => {
   return {
     name: NAME,
 
-    transform: () => {
-      return {
+    transform: ({ apply }) => {
+      apply({
         opacity: 0,
-        duration: 0.2,
-      };
+        duration: options.duration,
+      });
     },
 
-    restore: () => {
-      return { ...backups, duration: 0.2, overwrite: true };
+    restore: ({ apply }) => {
+      apply({ ...backups, duration: options.duration, overwrite: true });
     },
   };
-});
+};

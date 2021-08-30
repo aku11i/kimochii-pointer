@@ -90,7 +90,9 @@ export class KimochiiPointer {
 
   clearShape(): void {
     if (this._currentShape) {
-      this.apply(this._currentShape.restore());
+      this._currentShape.restore({
+        apply: this.apply.bind(this),
+      });
     }
 
     this._currentShape = undefined;
@@ -102,13 +104,17 @@ export class KimochiiPointer {
 
   applyShape(shape: Shape, target: HTMLElement): void {
     if (this._currentShape) {
-      this.apply(this._currentShape.restore());
+      this._currentShape.restore({
+        apply: this.apply.bind(this),
+      });
     }
 
     this._currentShape = shape;
 
-    const vars = shape.transform(target);
-    this.apply(vars);
+    shape.transform({
+      apply: this.apply.bind(this),
+      target,
+    });
   }
 
   private _handleMouseMove = (event: MouseEvent): void => {
@@ -121,7 +127,7 @@ export class KimochiiPointer {
     this._mousePosition.x = pageX;
     this._mousePosition.y = pageY;
 
-    if (!this._currentShape?.fixPosition) {
+    if (!this._currentShape?.shouldFixPosition?.()) {
       this.apply({
         top: pageY,
         left: pageX,
