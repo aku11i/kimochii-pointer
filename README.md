@@ -117,20 +117,17 @@ import { ShapeFactory } from "kimochii-pointer";
 
 export const pinkShapeFactory: ShapeFactory = (pointer) => {
   // Backup default pointer color.
-  const color = pointer.getProperty("color");
-
-  // Duration of animation transition.
-  const duration = 0.2;
+  const backgroundColor = pointer.getProperty("backgroundColor");
 
   return {
     name: "pink",
 
     transform: () => {
-      pointer.apply({ color: "pink", duration });
+      pointer.apply({ backgroundColor: "hotpink" });
     },
 
     restore: () => {
-      pointer.apply({ color, duration });
+      pointer.apply({ backgroundColor });
     },
   };
 };
