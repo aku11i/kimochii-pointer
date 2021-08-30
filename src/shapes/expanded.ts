@@ -11,7 +11,7 @@ export type ExpandedShapeOptions = {
 
 export const defaultExpandedShapeOptions: Required<ExpandedShapeOptions> = {
   scale: 2,
-  duration: 0.2,
+  duration: 0.13,
   opacity: 0.4,
 };
 

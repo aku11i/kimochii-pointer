@@ -9,7 +9,7 @@ export type TextShapeOptions = {
 };
 
 export const defaultTextShapeOptions: Required<TextShapeOptions> = {
-  duration: 0.2,
+  duration: 0.1,
   opacity: 0.6,
 };
 
