@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/aku11i/kimochii-pointer/compare/v0.7.0...v0.7.1) (2021-08-30)
+
+
+### Features
+
+* Add easing to transitions ([#32](https://github.com/aku11i/kimochii-pointer/issues/32)) ([8ea8c59](https://github.com/aku11i/kimochii-pointer/commit/8ea8c5973b0c7e30d48d5bab5b42fc14be3cc45a))
+
 ## [0.7.0](https://github.com/aku11i/kimochii-pointer/compare/v0.6.2...v0.7.0) (2021-08-30)
 
 
