@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/aku11i/kimochii-pointer/compare/v0.9.4...v0.10.0) (2021-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* ShapeFactoryのオプションにデフォルト型定義を設定する (#46)
+
+### Bug Fixes
+
+* Fix custom shape example of README.md ([#47](https://github.com/aku11i/kimochii-pointer/issues/47)) ([31150fa](https://github.com/aku11i/kimochii-pointer/commit/31150faab95d30d134fa35e123737c9bd01344e7))
+* ShapeFactoryのオプションにデフォルト型定義を設定する ([#46](https://github.com/aku11i/kimochii-pointer/issues/46)) ([5d18f0c](https://github.com/aku11i/kimochii-pointer/commit/5d18f0c41cccc7222b2e106c7a28ac664cd28b14))
+
 ### [0.9.4](https://github.com/aku11i/kimochii-pointer/compare/v0.9.3...v0.9.4) (2021-08-30)
 
 ### [0.9.3](https://github.com/aku11i/kimochii-pointer/compare/v0.9.2...v0.9.3) (2021-08-30)
