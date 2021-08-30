@@ -8,7 +8,7 @@ import {
   textShapeFactory,
 } from "./shapes";
 
-export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
+export const ATTRIBUTE_NAME = "data-kimochii-pointer";
 
 export const defaultStyles: Partial<CSSStyleDeclaration> = {
   position: "absolute",
@@ -124,7 +124,7 @@ export class KimochiiPointer {
 
     const newTarget = document
       .elementsFromPoint(clientX, clientY)
-      .find((el) => el.getAttribute(MODE_ATTRIBUTE_NAME));
+      .find((el) => el.getAttribute(ATTRIBUTE_NAME));
 
     if (!newTarget) {
       this._targetElement = undefined;
@@ -134,7 +134,7 @@ export class KimochiiPointer {
     } else if (newTarget !== this._targetElement) {
       this._targetElement = newTarget;
 
-      const shapeName = newTarget.getAttribute(MODE_ATTRIBUTE_NAME) as string;
+      const shapeName = newTarget.getAttribute(ATTRIBUTE_NAME) as string;
       const shape = this.getShape(shapeName);
       if (shape) {
         this.applyShape(shape, newTarget as HTMLElement);
