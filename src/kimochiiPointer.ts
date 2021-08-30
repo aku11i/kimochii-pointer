@@ -21,10 +21,10 @@ export const defaultStyles: Partial<CSSStyleDeclaration> = {
   backgroundColor: "gray",
   borderRadius: "50%",
 
-  top: "-30px",
-  left: "-30px",
-  width: "30px",
-  height: "30px",
+  top: "-20px",
+  left: "-20px",
+  width: "20px",
+  height: "20px",
 };
 
 export type PointerOptions = {
