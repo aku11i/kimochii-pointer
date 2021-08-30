@@ -1,5 +1,5 @@
 import gsap, { Power2 } from "gsap";
-import { ShapeFactory } from "../shape";
+import { ShapeFactory } from "../types";
 
 const NAME = "text";
 
