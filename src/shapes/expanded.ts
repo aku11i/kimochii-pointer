@@ -1,5 +1,5 @@
 import { ShapeFactory } from "../shapeFactory";
-import gsap from "gsap";
+import gsap, { Power2 } from "gsap";
 
 const NAME = "expanded";
 
@@ -7,12 +7,14 @@ export type ExpandedShapeOptions = {
   scale?: number;
   duration?: number;
   opacity?: number;
+  ease?: gsap.EaseFunction;
 };
 
 export const defaultExpandedShapeOptions: Required<ExpandedShapeOptions> = {
   scale: 2,
   duration: 0.13,
   opacity: 0.4,
+  ease: Power2.easeOut,
 };
 
 export const expandedShapeFactory: ShapeFactory<ExpandedShapeOptions> = (
@@ -43,12 +45,18 @@ export const expandedShapeFactory: ShapeFactory<ExpandedShapeOptions> = (
         width: width * options.scale,
         height: height * options.scale,
         opacity: options.opacity,
+        ease: options.ease,
         duration: options.duration,
       });
     },
 
     restore: ({ apply }) => {
-      apply({ ...backups, duration: options.duration, overwrite: true });
+      apply({
+        ...backups,
+        duration: options.duration,
+        overwrite: true,
+        ease: options.ease,
+      });
     },
   };
 };

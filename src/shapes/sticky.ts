@@ -1,5 +1,5 @@
 import { ShapeFactory } from "../shapeFactory";
-import gsap from "gsap";
+import gsap, { Power2 } from "gsap";
 
 const NAME = "sticky";
 
@@ -8,6 +8,7 @@ export type StickyShapeOptions = {
   padding?: number;
   opacity?: number;
   radius?: number;
+  ease?: gsap.EaseFunction;
 };
 
 export const defaultStickyShapeOptions: Required<StickyShapeOptions> = {
@@ -15,6 +16,7 @@ export const defaultStickyShapeOptions: Required<StickyShapeOptions> = {
   padding: 0,
   opacity: 0.3,
   radius: 0.1,
+  ease: Power2.easeOut,
 };
 
 export const stickyShapeFactory: ShapeFactory<StickyShapeOptions> = (
@@ -52,11 +54,17 @@ export const stickyShapeFactory: ShapeFactory<StickyShapeOptions> = (
         opacity: options.opacity,
         borderRadius: `${Math.min(width, height) * options.radius}px`,
         duration: options.duration,
+        ease: options.ease,
       });
     },
 
     restore: ({ apply }) => {
-      apply({ ...backups, duration: options.duration, overwrite: true });
+      apply({
+        ...backups,
+        duration: options.duration,
+        ease: options.ease,
+        overwrite: true,
+      });
     },
   };
 };

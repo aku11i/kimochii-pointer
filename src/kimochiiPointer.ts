@@ -1,4 +1,4 @@
-import { gsap } from "gsap";
+import { gsap, Power2 } from "gsap";
 import { Shape } from "./shape";
 
 import {
@@ -134,6 +134,7 @@ export class KimochiiPointer {
         top: pageY,
         left: pageX,
         duration: this._options.pointerDuration,
+        ease: Power2.easeOut,
       });
     }
 

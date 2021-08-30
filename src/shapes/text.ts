@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import gsap, { Power2 } from "gsap";
 import { ShapeFactory } from "../shapeFactory";
 
 const NAME = "text";
@@ -6,11 +6,13 @@ const NAME = "text";
 export type TextShapeOptions = {
   duration?: number;
   opacity?: number;
+  ease?: gsap.EaseFunction;
 };
 
 export const defaultTextShapeOptions: Required<TextShapeOptions> = {
   duration: 0.1,
   opacity: 0.6,
+  ease: Power2.easeOut,
 };
 
 export const textShapeFactory: ShapeFactory<TextShapeOptions> = (
@@ -45,11 +47,17 @@ export const textShapeFactory: ShapeFactory<TextShapeOptions> = (
         borderRadius: `${width / 2}px`,
         opacity: options.opacity,
         duration: options.duration,
+        ease: options.ease,
       });
     },
 
     restore: ({ apply }) => {
-      apply({ ...backups, duration: options.duration, overwrite: true });
+      apply({
+        ...backups,
+        duration: options.duration,
+        ease: options.ease,
+        overwrite: true,
+      });
     },
   };
 };
