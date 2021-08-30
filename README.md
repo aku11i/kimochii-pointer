@@ -6,11 +6,11 @@ A smooth and variable mouse pointer for JavaScript.
 
 ## Demo
 
-Used by my website.
+Used in my website.
 
 https://akutagawa.dev/
 
-## Supported Platforms
+## Supported platforms
 
 Tested on latest version of major browsers (Chrome, Safari, Firefox).
 
@@ -30,17 +30,27 @@ npm install --save gsap@3.x
 # yarn add gsap@3.x
 ```
 
-## Usage
+## General usage
 
-Initialize in your entry point.
+Initialize in your entry point:
 
 ```typescript
 import { KimochiiPointer } from "kimochii-pointer";
 
 const pointer = new KimochiiPointer();
 
-pointer.mount();
+pointer.mount(); // Pointer will be shown to the display.
 ```
+
+Set a shape name to custom attribute `data-kimochii-pointer` of HTML element you want to change the shape of pointer.
+
+e.g.:
+
+```html
+<button data-kimochii-pointer="sticky">BUTTON</button>
+```
+
+Pointer will be sticked to the element when you move to over the one.
 
 If you want to hide default mouse cursor of operation system, add below style to your global css:
 
@@ -50,19 +60,99 @@ If you want to hide default mouse cursor of operation system, add below style to
 }
 ```
 
-Add custom attribute `data-kimochii-pointer` to the element you want to change cursor.
+## Preinstalled shapes
 
-e.g.:
+There are preinstalled shapes.
+
+You can use them without any steps.
+
+### Expanded
+
+Pointer expands its scale.
 
 ```html
-<!-- Pointer sticks to the button. -->
-<button data-kimochii-pointer="sticky">BUTTON</button>
+<div data-kimochii-pointer="expanded"></div>
+```
 
-<!-- Pointer stretches vertically on text content. -->
-<span data-kimochii-pointer="text">Lorem ipsum dol...</a>
+### Sticky
 
-<!-- Pointer is expanded while it is on the link. -->
-<a data-kimochii-pointer="expanded">LINK</a>
+Pointer sticks to the element.
+
+```html
+<div data-kimochii-pointer="sticky"></div>
+```
+
+### Text
+
+Pointer stretches vertically like a text cursor.
+
+```html
+<p data-kimochii-pointer="text"></p>
+```
+
+### Hidden
+
+Pointer hides its shape.
+
+```html
+<div data-kimochii-pointer="hidden"></div>
+```
+
+### Lighter
+
+Pointer decreases its opacity.
+
+```html
+<div data-kimochii-pointer="lighter"></div>
+```
+
+## Create a custom shape
+
+`ShapeFactory` is usefull function type to create a custom shape.
+
+Below is an example of custom shape that change pointer color to pink.
+
+```typescript
+import { ShapeFactory } from "kimochii-pointer";
+
+export const pinkShapeFactory: ShapeFactory = (pointer) => {
+  // Backup default pointer color.
+  const color = pointer.getProperty("color");
+
+  // Duration of animation transition.
+  const duration = 0.2;
+
+  return {
+    name: "pink",
+
+    transform: () => {
+      pointer.apply({ color: "pink", duration });
+    },
+
+    restore: () => {
+      pointer.apply({ color, duration });
+    },
+  };
+};
+```
+
+Register to the pointer:
+
+```typescript
+import { KimochiiPointer, Shape } from "kimochii-pointer";
+import { pinkShapeFactory } from "./pinkShape";
+
+const pointer = new KimochiiPointer();
+pointer.mount();
+
+const pinkShape = pinkShapeFactory(pointer);
+pointer.register(pinkShape);
+```
+
+Use from HTML elemen.
+
+```html
+<div data-kimochii-pointer="pink"></div>
 ```
 
 ## Contribution
