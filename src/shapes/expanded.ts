@@ -11,7 +11,7 @@ export type ExpandedShapeOptions = {
 };
 
 export const defaultExpandedShapeOptions: Required<ExpandedShapeOptions> = {
-  scale: 2,
+  scale: 2.5,
   duration: 0.13,
   opacity: 0.4,
   ease: Power2.easeOut,
