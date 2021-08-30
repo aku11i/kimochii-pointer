@@ -93,17 +93,13 @@ export class KimochiiPointer implements Pointer {
     this._shapes.delete(shape.name);
   };
 
-  detach: Pointer["detach"] = () => {
-    if (this._currentShape) {
-      this._currentShape.restore();
-    }
-
-    this._currentShape = undefined;
-  };
-
   findRegisteredShape: Pointer["findRegisteredShape"] = (name: string) => {
     return this._shapes.get(name);
   };
+
+  getAllRegisteredShapes(): Shape[] {
+    return Array.from(this._shapes.values());
+  }
 
   attach: Pointer["attach"] = (shape: Shape, target: HTMLElement) => {
     if (this._currentShape) {
@@ -113,6 +109,60 @@ export class KimochiiPointer implements Pointer {
     this._currentShape = shape;
 
     shape.transform(target);
+  };
+
+  detach: Pointer["detach"] = () => {
+    if (this._currentShape) {
+      this._currentShape.restore();
+    }
+
+    this._currentShape = undefined;
+  };
+
+  mount: Pointer["mount"] = (to = document.body) => {
+    window.addEventListener("mousemove", this._handleMouseMove);
+    window.addEventListener("mousedown", this._handleMouseDown);
+    window.addEventListener("mouseup", this._handleMouseUp);
+    to.appendChild(this._element);
+  };
+
+  unmount: Pointer["unmount"] = () => {
+    window.removeEventListener("mousemove", this._handleMouseMove);
+    window.removeEventListener("mousedown", this._handleMouseDown);
+    window.removeEventListener("mouseup", this._handleMouseUp);
+    this._element.remove();
+  };
+
+  apply: Pointer["apply"] = (_vars: gsap.TweenVars) => {
+    const vars = Object.fromEntries([
+      ...Object.entries(_vars),
+      ...this._lockedProperties.entries(),
+    ]);
+
+    if (vars.duration) {
+      gsap.to(this._element, vars);
+    } else {
+      gsap.set(this._element, vars);
+    }
+  };
+
+  getProperty: Pointer["getProperty"] = (key: keyof gsap.TweenVars) => {
+    return gsap.getProperty(this._element, key as string);
+  };
+
+  lock: Pointer["lock"] = (
+    key: keyof gsap.TweenVars,
+    value: gsap.TweenValue
+  ) => {
+    this._lockedProperties.set(key, value);
+  };
+
+  unlock: Pointer["unlock"] = (key: keyof gsap.TweenVars) => {
+    this._lockedProperties.delete(key);
+  };
+
+  isLocked: Pointer["isLocked"] = (key: keyof gsap.TweenVars) => {
+    return this._lockedProperties.has(key);
   };
 
   private _handleMouseMove = (event: MouseEvent): void => {
@@ -164,52 +214,6 @@ export class KimochiiPointer implements Pointer {
   private _handleMouseUp = () => {
     this.unlock("opacity");
     this.apply({ opacity: this._options.defaultStyles.opacity, duration: 0.2 });
-  };
-
-  mount: Pointer["mount"] = (to = document.body) => {
-    window.addEventListener("mousemove", this._handleMouseMove);
-    window.addEventListener("mousedown", this._handleMouseDown);
-    window.addEventListener("mouseup", this._handleMouseUp);
-    to.appendChild(this._element);
-  };
-
-  unmount: Pointer["unmount"] = () => {
-    window.removeEventListener("mousemove", this._handleMouseMove);
-    window.removeEventListener("mousedown", this._handleMouseDown);
-    window.removeEventListener("mouseup", this._handleMouseUp);
-    this._element.remove();
-  };
-
-  apply: Pointer["apply"] = (_vars: gsap.TweenVars) => {
-    const vars = Object.fromEntries([
-      ...Object.entries(_vars),
-      ...this._lockedProperties.entries(),
-    ]);
-
-    if (vars.duration) {
-      gsap.to(this._element, vars);
-    } else {
-      gsap.set(this._element, vars);
-    }
-  };
-
-  getProperty: Pointer["getProperty"] = (key: keyof gsap.TweenVars) => {
-    return gsap.getProperty(this._element, key as string);
-  };
-
-  lock: Pointer["lock"] = (
-    key: keyof gsap.TweenVars,
-    value: gsap.TweenValue
-  ) => {
-    this._lockedProperties.set(key, value);
-  };
-
-  unlock: Pointer["unlock"] = (key: keyof gsap.TweenVars) => {
-    this._lockedProperties.delete(key);
-  };
-
-  isLocked: Pointer["isLocked"] = (key: keyof gsap.TweenVars) => {
-    return this._lockedProperties.has(key);
   };
 }
 
