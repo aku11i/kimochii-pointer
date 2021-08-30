@@ -1,36 +1,54 @@
-import { createShapeFactory } from "../shapeFactory";
+import { ShapeFactory } from "../shapeFactory";
 import gsap from "gsap";
-
-const scale = 2;
 
 const NAME = "expanded";
 
-export const expandedShapeFactory = createShapeFactory((pointer) => {
-  const getter = gsap.getProperty(pointer);
+export type ExpandedShapeOptions = {
+  scale?: number;
+  duration?: number;
+  opacity?: number;
+};
 
-  const backups: gsap.TweenVars = {
-    width: getter("width"),
-    height: getter("height"),
-    opacity: getter("opacity"),
+export const defaultExpandedShapeOptions: Required<ExpandedShapeOptions> = {
+  scale: 2,
+  duration: 0.2,
+  opacity: 0.4,
+};
+
+export const expandedShapeFactory: ShapeFactory<ExpandedShapeOptions> = (
+  pointer,
+  _options = {}
+) => {
+  const options: Required<ExpandedShapeOptions> = {
+    ...defaultExpandedShapeOptions,
+    ..._options,
   };
 
-  const width = (getter("width") as number) * scale;
-  const height = (getter("height") as number) * scale;
+  const getter = gsap.getProperty(pointer);
+
+  const width = getter("width") as number;
+  const height = getter("height") as number;
+
+  const backups: gsap.TweenVars = {
+    width,
+    height,
+    opacity: getter("opacity"),
+  };
 
   return {
     name: NAME,
 
-    transform: () => {
-      return {
-        width,
-        height,
-        opacity: 0.4,
-        duration: 0.2,
-      };
+    transform: ({ apply }) => {
+      apply({
+        width: width * options.scale,
+        height: height * options.scale,
+        opacity: options.opacity,
+        duration: options.duration,
+      });
     },
 
-    restore: () => {
-      return { ...backups, duration: 0.2, overwrite: true };
+    restore: ({ apply }) => {
+      apply({ ...backups, duration: options.duration, overwrite: true });
     },
   };
-});
+};
