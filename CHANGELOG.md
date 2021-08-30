@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.2](https://github.com/aku11i/kimochii-pointer/compare/v0.7.1...v0.7.2) (2021-08-30)
+
+
+### Bug Fixes
+
+* ポインター座標の更新タイミングを調整 ([#33](https://github.com/aku11i/kimochii-pointer/issues/33)) ([15a1513](https://github.com/aku11i/kimochii-pointer/commit/15a151326658f1b9ddf2644035520032e45148ef))
+
 ### [0.7.1](https://github.com/aku11i/kimochii-pointer/compare/v0.7.0...v0.7.1) (2021-08-30)
 
 
