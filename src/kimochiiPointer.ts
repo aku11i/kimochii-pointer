@@ -129,15 +129,6 @@ export class KimochiiPointer {
     this._mousePosition.x = pageX;
     this._mousePosition.y = pageY;
 
-    if (!this._currentShape?.shouldFixPosition?.()) {
-      this.apply({
-        top: pageY,
-        left: pageX,
-        duration: this._options.pointerDuration,
-        ease: Power2.easeOut,
-      });
-    }
-
     const newTarget = document
       .elementsFromPoint(clientX, clientY)
       .find((el) => el.getAttribute(MODE_ATTRIBUTE_NAME));
@@ -147,20 +138,26 @@ export class KimochiiPointer {
       if (this._currentShape) {
         this.clearShape();
       }
-      return;
+    } else if (newTarget !== this._targetElement) {
+      this._targetElement = newTarget;
+
+      const shapeName = newTarget.getAttribute(MODE_ATTRIBUTE_NAME) as string;
+      const shape = this.getShape(shapeName);
+      if (shape) {
+        this.applyShape(shape, newTarget as HTMLElement);
+      } else {
+        console.warn(`The shape "${shapeName}" is not found.`);
+      }
     }
 
-    if (this._targetElement === newTarget) return;
-    this._targetElement = newTarget;
+    if (this._currentShape?.shouldFixPosition?.()) return;
 
-    const shapeName = newTarget.getAttribute(MODE_ATTRIBUTE_NAME) as string;
-    const shape = this.getShape(shapeName);
-    if (!shape) {
-      console.warn(`The shape "${shapeName}" is not found.`);
-      return;
-    }
-
-    this.applyShape(shape, newTarget as HTMLElement);
+    this.apply({
+      top: pageY,
+      left: pageX,
+      duration: this._options.pointerDuration,
+      ease: Power2.easeOut,
+    });
   };
 
   private _handleMouseDown = () => {
