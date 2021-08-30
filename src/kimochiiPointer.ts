@@ -59,7 +59,7 @@ export class KimochiiPointer implements Pointer {
 
   private _currentShape: Shape | undefined;
 
-  private _shapes: Record<string, Shape | undefined>;
+  private _shapes: Map<string, Shape>;
 
   constructor(userOptions: PointerOptions = {}) {
     this._options = {
@@ -77,7 +77,7 @@ export class KimochiiPointer implements Pointer {
       this._element.style[key] = value;
     });
 
-    this._shapes = {};
+    this._shapes = new Map();
 
     this.registerShape(expandedShapeFactory(this));
     this.registerShape(stickyShapeFactory(this));
@@ -87,7 +87,10 @@ export class KimochiiPointer implements Pointer {
   }
 
   registerShape: Pointer["registerShape"] = (shape: Shape) => {
-    this._shapes[shape.name] = shape;
+    this._shapes.set(shape.name, shape);
+  };
+  excludeShape: Pointer["excludeShape"] = (shape: Shape) => {
+    this._shapes.delete(shape.name);
   };
 
   clearShape: Pointer["clearShape"] = () => {
@@ -99,7 +102,7 @@ export class KimochiiPointer implements Pointer {
   };
 
   getShape: Pointer["getShape"] = (name: string) => {
-    return this._shapes[name];
+    return this._shapes.get(name);
   };
 
   applyShape: Pointer["applyShape"] = (shape: Shape, target: HTMLElement) => {
