@@ -6,6 +6,7 @@ import {
   expandedShapeFactory,
   hiddenShapeFactory,
   textShapeFactory,
+  lighterShapeFactory,
 } from "./shapes";
 
 export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
@@ -82,6 +83,7 @@ export class KimochiiPointer {
     this.addShape(expandedShapeFactory(this._element));
     this.addShape(hiddenShapeFactory(this._element));
     this.addShape(textShapeFactory(this._element));
+    this.addShape(lighterShapeFactory(this._element));
   }
 
   addShape(shape: Shape): void {
