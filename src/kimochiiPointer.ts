@@ -79,21 +79,21 @@ export class KimochiiPointer implements Pointer {
 
     this._shapes = new Map();
 
-    this.registerShape(expandedShapeFactory(this));
-    this.registerShape(stickyShapeFactory(this));
-    this.registerShape(textShapeFactory(this));
-    this.registerShape(hiddenShapeFactory(this));
-    this.registerShape(lighterShapeFactory(this));
+    this.register(expandedShapeFactory(this));
+    this.register(stickyShapeFactory(this));
+    this.register(textShapeFactory(this));
+    this.register(hiddenShapeFactory(this));
+    this.register(lighterShapeFactory(this));
   }
 
-  registerShape: Pointer["registerShape"] = (shape: Shape) => {
+  register: Pointer["register"] = (shape: Shape) => {
     this._shapes.set(shape.name, shape);
   };
-  excludeShape: Pointer["excludeShape"] = (shape: Shape) => {
+  unregister: Pointer["unregister"] = (shape: Shape) => {
     this._shapes.delete(shape.name);
   };
 
-  clearShape: Pointer["clearShape"] = () => {
+  detach: Pointer["detach"] = () => {
     if (this._currentShape) {
       this._currentShape.restore();
     }
@@ -101,11 +101,11 @@ export class KimochiiPointer implements Pointer {
     this._currentShape = undefined;
   };
 
-  getShape: Pointer["getShape"] = (name: string) => {
+  findRegisteredShape: Pointer["findRegisteredShape"] = (name: string) => {
     return this._shapes.get(name);
   };
 
-  applyShape: Pointer["applyShape"] = (shape: Shape, target: HTMLElement) => {
+  attach: Pointer["attach"] = (shape: Shape, target: HTMLElement) => {
     if (this._currentShape) {
       this._currentShape.restore();
     }
@@ -132,15 +132,15 @@ export class KimochiiPointer implements Pointer {
     if (!newTarget) {
       this._targetElement = undefined;
       if (this._currentShape) {
-        this.clearShape();
+        this.detach();
       }
     } else if (newTarget !== this._targetElement) {
       this._targetElement = newTarget;
 
       const shapeName = newTarget.getAttribute(ATTRIBUTE_NAME) as string;
-      const shape = this.getShape(shapeName);
+      const shape = this.findRegisteredShape(shapeName);
       if (shape) {
-        this.applyShape(shape, newTarget as HTMLElement);
+        this.attach(shape, newTarget as HTMLElement);
       } else {
         console.warn(`The shape "${shapeName}" is not added.`);
       }

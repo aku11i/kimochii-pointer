@@ -1,14 +1,15 @@
 export interface Pointer {
   get element(): HTMLElement;
 
-  registerShape(shape: Shape): void;
-  excludeShape(shape: Shape): void;
+  register(shape: Shape): void;
 
-  clearShape(): void;
+  unregister(shape: Shape): void;
 
-  getShape(name: string): Shape | undefined;
+  findRegisteredShape(name: string): Shape | undefined;
 
-  applyShape(shape: Shape, target: HTMLElement): void;
+  attach(shape: Shape, target: HTMLElement): void;
+
+  detach(): void;
 
   mount(to?: HTMLElement): void;
 
