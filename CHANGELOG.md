@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/aku11i/kimochii-pointer/compare/v0.7.3...v0.8.0) (2021-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename "addShape" to "registerShape" (#39)
+* Extract interfaces from kimochiiPointer.ts (#38)
+* Rename "MODE_ATTRIBUTE_NAME" to "ATTRIBUTE_NAME" (#37)
+* Pass the instance of KimochiiPointer to ShapeFactory (#36)
+
+### Features
+
+* Add method "excludeShape" ([#40](https://github.com/aku11i/kimochii-pointer/issues/40)) ([43e2448](https://github.com/aku11i/kimochii-pointer/commit/43e24487fe21bf0a408419a195e6270e0cadb1d6))
+* Add methods that lock properties ([#35](https://github.com/aku11i/kimochii-pointer/issues/35)) ([85d2c85](https://github.com/aku11i/kimochii-pointer/commit/85d2c85684a553f76e460a5799a32ebff17ca579))
+
+
+* Extract interfaces from kimochiiPointer.ts ([#38](https://github.com/aku11i/kimochii-pointer/issues/38)) ([148a08b](https://github.com/aku11i/kimochii-pointer/commit/148a08bc9a011c09f1465abd5a01db65fab66873))
+* Pass the instance of KimochiiPointer to ShapeFactory ([#36](https://github.com/aku11i/kimochii-pointer/issues/36)) ([403d2c2](https://github.com/aku11i/kimochii-pointer/commit/403d2c257e30d734e2efe2a5437ba8946b6b1677))
+* Rename "addShape" to "registerShape" ([#39](https://github.com/aku11i/kimochii-pointer/issues/39)) ([833630c](https://github.com/aku11i/kimochii-pointer/commit/833630c212381a3427c31c29d4b9c321785d5189))
+* Rename "MODE_ATTRIBUTE_NAME" to "ATTRIBUTE_NAME" ([#37](https://github.com/aku11i/kimochii-pointer/issues/37)) ([e62c40f](https://github.com/aku11i/kimochii-pointer/commit/e62c40f44cec741ca4ab1ef8ad90126f8841a379))
+
 ### [0.7.3](https://github.com/aku11i/kimochii-pointer/compare/v0.7.2...v0.7.3) (2021-08-30)
 
 
