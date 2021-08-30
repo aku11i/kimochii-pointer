@@ -1,6 +1,6 @@
 {
   "name": "kimochii-pointer",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "A variable mouse cursor implementation for JavaScript.",
   "main": "./dist/kimochii-pointer.cjs.js",
   "module": "./dist/kimochii-pointer.es.js",
