@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.3](https://github.com/aku11i/kimochii-pointer/compare/v0.7.2...v0.7.3) (2021-08-30)
+
+
+### Features
+
+* ポインターのデフォルトサイズを小さくする ([#34](https://github.com/aku11i/kimochii-pointer/issues/34)) ([f09f47e](https://github.com/aku11i/kimochii-pointer/commit/f09f47e2d8438a9a408393ec706daeacc3164eb9))
+
 ### [0.7.2](https://github.com/aku11i/kimochii-pointer/compare/v0.7.1...v0.7.2) (2021-08-30)
 
 
