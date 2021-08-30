@@ -79,14 +79,14 @@ export class KimochiiPointer implements Pointer {
 
     this._shapes = {};
 
-    this.addShape(expandedShapeFactory(this));
-    this.addShape(stickyShapeFactory(this));
-    this.addShape(textShapeFactory(this));
-    this.addShape(hiddenShapeFactory(this));
-    this.addShape(lighterShapeFactory(this));
+    this.registerShape(expandedShapeFactory(this));
+    this.registerShape(stickyShapeFactory(this));
+    this.registerShape(textShapeFactory(this));
+    this.registerShape(hiddenShapeFactory(this));
+    this.registerShape(lighterShapeFactory(this));
   }
 
-  addShape: Pointer["addShape"] = (shape: Shape) => {
+  registerShape: Pointer["registerShape"] = (shape: Shape) => {
     this._shapes[shape.name] = shape;
   };
 

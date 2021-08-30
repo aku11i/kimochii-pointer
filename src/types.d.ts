@@ -2,6 +2,7 @@ export interface Pointer {
   get element(): HTMLElement;
 
   addShape(shape: Shape): void;
+  registerShape(shape: Shape): void;
 
   clearShape(): void;
 
