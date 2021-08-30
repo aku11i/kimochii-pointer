@@ -1,4 +1,4 @@
-import { KimochiiPointer } from "./src/kimochiiPointer";
+import { KimochiiPointer } from "./src";
 
 await new Promise<void>((resolve) =>
   window.addEventListener("DOMContentLoaded", () => resolve())

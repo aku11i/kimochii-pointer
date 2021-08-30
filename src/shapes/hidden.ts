@@ -1,5 +1,5 @@
-import gsap, { Power2 } from "gsap";
-import { ShapeFactory } from "../shapeFactory";
+import { Power2 } from "gsap";
+import { ShapeFactory } from "../shape";
 
 const NAME = "hidden";
 
@@ -22,25 +22,23 @@ export const hiddenShapeFactory: ShapeFactory<HiddenShapeOptions> = (
     ..._options,
   };
 
-  const getter = gsap.getProperty(pointer);
-
   const backups: gsap.TweenVars = {
-    opacity: getter("opacity"),
+    opacity: pointer.getProperty("opacity"),
   };
 
   return {
     name: NAME,
 
-    transform: ({ apply }) => {
-      apply({
+    transform: () => {
+      pointer.apply({
         opacity: 0,
         duration: options.duration,
         ease: options.ease,
       });
     },
 
-    restore: ({ apply }) => {
-      apply({
+    restore: () => {
+      pointer.apply({
         ...backups,
         duration: options.duration,
         ease: options.ease,

@@ -1,5 +1,5 @@
-import { ShapeFactory } from "../shapeFactory";
-import gsap, { Power2 } from "gsap";
+import { ShapeFactory } from "../shape";
+import { Power2 } from "gsap";
 
 const NAME = "expanded";
 
@@ -26,22 +26,20 @@ export const expandedShapeFactory: ShapeFactory<ExpandedShapeOptions> = (
     ..._options,
   };
 
-  const getter = gsap.getProperty(pointer);
-
-  const width = getter("width") as number;
-  const height = getter("height") as number;
+  const width = pointer.getProperty("width") as number;
+  const height = pointer.getProperty("height") as number;
 
   const backups: gsap.TweenVars = {
     width,
     height,
-    opacity: getter("opacity"),
+    opacity: pointer.getProperty("opacity"),
   };
 
   return {
     name: NAME,
 
-    transform: ({ apply }) => {
-      apply({
+    transform: () => {
+      pointer.apply({
         width: width * options.scale,
         height: height * options.scale,
         opacity: options.opacity,
@@ -50,8 +48,8 @@ export const expandedShapeFactory: ShapeFactory<ExpandedShapeOptions> = (
       });
     },
 
-    restore: ({ apply }) => {
-      apply({
+    restore: () => {
+      pointer.apply({
         ...backups,
         duration: options.duration,
         overwrite: true,
