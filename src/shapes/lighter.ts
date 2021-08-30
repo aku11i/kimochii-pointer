@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import gsap, { Power2 } from "gsap";
 import { ShapeFactory } from "../shapeFactory";
 
 const NAME = "lighter";
@@ -6,11 +6,13 @@ const NAME = "lighter";
 export type LighterShapeOptions = {
   duration?: number;
   opacity?: number;
+  ease?: gsap.EaseFunction;
 };
 
 export const defaultLighterShapeOptions: Required<LighterShapeOptions> = {
   duration: 0.2,
   opacity: 0.3,
+  ease: Power2.easeOut,
 };
 
 export const lighterShapeFactory: ShapeFactory<LighterShapeOptions> = (
@@ -35,11 +37,17 @@ export const lighterShapeFactory: ShapeFactory<LighterShapeOptions> = (
       apply({
         opacity: options.opacity,
         duration: options.duration,
+        ease: options.ease,
       });
     },
 
     restore: ({ apply }) => {
-      apply({ ...backups, duration: options.duration, overwrite: true });
+      apply({
+        ...backups,
+        duration: options.duration,
+        ease: options.ease,
+        overwrite: true,
+      });
     },
   };
 };

@@ -1,14 +1,16 @@
-import gsap from "gsap";
+import gsap, { Power2 } from "gsap";
 import { ShapeFactory } from "../shapeFactory";
 
 const NAME = "hidden";
 
 export type HiddenShapeOptions = {
   duration?: number;
+  ease?: gsap.EaseFunction;
 };
 
 export const defaultHiddenShapeOptions: Required<HiddenShapeOptions> = {
   duration: 0.2,
+  ease: Power2.easeOut,
 };
 
 export const hiddenShapeFactory: ShapeFactory<HiddenShapeOptions> = (
@@ -33,11 +35,17 @@ export const hiddenShapeFactory: ShapeFactory<HiddenShapeOptions> = (
       apply({
         opacity: 0,
         duration: options.duration,
+        ease: options.ease,
       });
     },
 
     restore: ({ apply }) => {
-      apply({ ...backups, duration: options.duration, overwrite: true });
+      apply({
+        ...backups,
+        duration: options.duration,
+        ease: options.ease,
+        overwrite: true,
+      });
     },
   };
 };
