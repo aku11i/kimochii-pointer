@@ -1,12 +1,11 @@
 import { gsap, Power2 } from "gsap";
 import { Shape } from "./shape";
-
 import {
-  stickyShapeFactory,
   expandedShapeFactory,
   hiddenShapeFactory,
-  textShapeFactory,
   lighterShapeFactory,
+  stickyShapeFactory,
+  textShapeFactory,
 } from "./shapes";
 
 export const MODE_ATTRIBUTE_NAME = "data-kimochii-pointer";
@@ -80,11 +79,11 @@ export class KimochiiPointer {
 
     this._shapes = {};
 
-    this.addShape(stickyShapeFactory(this._element));
-    this.addShape(expandedShapeFactory(this._element));
-    this.addShape(hiddenShapeFactory(this._element));
-    this.addShape(textShapeFactory(this._element));
-    this.addShape(lighterShapeFactory(this._element));
+    this.addShape(expandedShapeFactory(this));
+    this.addShape(stickyShapeFactory(this));
+    this.addShape(textShapeFactory(this));
+    this.addShape(hiddenShapeFactory(this));
+    this.addShape(lighterShapeFactory(this));
   }
 
   addShape(shape: Shape): void {
@@ -93,13 +92,7 @@ export class KimochiiPointer {
 
   clearShape(): void {
     if (this._currentShape) {
-      this._currentShape.restore({
-        apply: this.apply.bind(this),
-        getProperty: this.getProperty.bind(this),
-        lock: this.lock.bind(this),
-        unlock: this.unlock.bind(this),
-        isLocked: this.isLocked.bind(this),
-      });
+      this._currentShape.restore();
     }
 
     this._currentShape = undefined;
@@ -111,25 +104,12 @@ export class KimochiiPointer {
 
   applyShape(shape: Shape, target: HTMLElement): void {
     if (this._currentShape) {
-      this._currentShape.restore({
-        apply: this.apply.bind(this),
-        getProperty: this.getProperty.bind(this),
-        lock: this.lock.bind(this),
-        unlock: this.unlock.bind(this),
-        isLocked: this.isLocked.bind(this),
-      });
+      this._currentShape.restore();
     }
 
     this._currentShape = shape;
 
-    shape.transform({
-      target,
-      apply: this.apply.bind(this),
-      getProperty: this.getProperty.bind(this),
-      lock: this.lock.bind(this),
-      unlock: this.unlock.bind(this),
-      isLocked: this.isLocked.bind(this),
-    });
+    shape.transform(target);
   }
 
   private _handleMouseMove = (event: MouseEvent): void => {
@@ -159,7 +139,7 @@ export class KimochiiPointer {
       if (shape) {
         this.applyShape(shape, newTarget as HTMLElement);
       } else {
-        console.warn(`The shape "${shapeName}" is not found.`);
+        console.warn(`The shape "${shapeName}" is not added.`);
       }
     }
 

@@ -1,5 +1,5 @@
 import gsap, { Power2 } from "gsap";
-import { ShapeFactory } from "../shapeFactory";
+import { ShapeFactory } from "../shape";
 
 const NAME = "text";
 
@@ -24,24 +24,22 @@ export const textShapeFactory: ShapeFactory<TextShapeOptions> = (
     ..._options,
   };
 
-  const getter = gsap.getProperty(pointer);
-
   const backups: gsap.TweenVars = {
-    width: getter("width"),
-    height: getter("height"),
-    opacity: getter("opacity"),
-    borderRadius: getter("borderRadius"),
+    width: pointer.getProperty("width"),
+    height: pointer.getProperty("height"),
+    opacity: pointer.getProperty("opacity"),
+    borderRadius: pointer.getProperty("borderRadius"),
   };
 
   return {
     name: NAME,
 
-    transform: ({ target, apply }) => {
+    transform: (target) => {
       const targetFontSize = gsap.getProperty(target, "fontSize") as number;
       const height = targetFontSize * 1.2;
       const width = 5 + targetFontSize * 0.05;
 
-      apply({
+      pointer.apply({
         width,
         height,
         borderRadius: `${width / 2}px`,
@@ -51,8 +49,8 @@ export const textShapeFactory: ShapeFactory<TextShapeOptions> = (
       });
     },
 
-    restore: ({ apply }) => {
-      apply({
+    restore: () => {
+      pointer.apply({
         ...backups,
         duration: options.duration,
         ease: options.ease,

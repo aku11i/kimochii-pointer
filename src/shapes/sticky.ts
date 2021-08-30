@@ -1,5 +1,5 @@
-import { ShapeFactory } from "../shapeFactory";
-import gsap, { Power2 } from "gsap";
+import { ShapeFactory } from "../shape";
+import { Power2 } from "gsap";
 
 const NAME = "sticky";
 
@@ -28,13 +28,11 @@ export const stickyShapeFactory: ShapeFactory<StickyShapeOptions> = (
     ..._options,
   };
 
-  const getter = gsap.getProperty(pointer);
-
   const backups: gsap.TweenVars = {
-    width: getter("width"),
-    height: getter("height"),
-    opacity: getter("opacity"),
-    borderRadius: getter("borderRadius"),
+    width: pointer.getProperty("width"),
+    height: pointer.getProperty("height"),
+    opacity: pointer.getProperty("opacity"),
+    borderRadius: pointer.getProperty("borderRadius"),
   };
 
   return {
@@ -42,11 +40,11 @@ export const stickyShapeFactory: ShapeFactory<StickyShapeOptions> = (
 
     shouldFixPosition: () => true,
 
-    transform: ({ target, apply }) => {
+    transform: (target) => {
       const width = target.offsetWidth + options.padding;
       const height = target.offsetHeight + options.padding;
 
-      apply({
+      pointer.apply({
         top: target.offsetTop + height / 2,
         left: target.offsetLeft + width / 2,
         width,
@@ -58,8 +56,8 @@ export const stickyShapeFactory: ShapeFactory<StickyShapeOptions> = (
       });
     },
 
-    restore: ({ apply }) => {
-      apply({
+    restore: () => {
+      pointer.apply({
         ...backups,
         duration: options.duration,
         ease: options.ease,

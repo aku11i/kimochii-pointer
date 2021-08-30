@@ -1,24 +1,16 @@
-export type TransformProps = {
-  target: HTMLElement;
-  apply: (vars: gsap.TweenVars) => void;
-  getProperty: (key: keyof gsap.TweenVars) => gsap.TweenValue;
-  lock: (key: keyof gsap.TweenVars, value: gsap.TweenValue) => void;
-  unlock: (key: keyof gsap.TweenVars) => void;
-  isLocked: (key: keyof gsap.TweenVars) => boolean;
-};
-
-export type RestoreProps = Omit<TransformProps, "target">;
-
-export type ShapeConstructorProps = {
-  pointer: HTMLElement;
-};
+import { KimochiiPointer } from "./kimochiiPointer";
 
 export type Shape = {
   name: string;
 
   shouldFixPosition?: () => boolean;
 
-  transform: (props: TransformProps) => void;
+  transform: (target: HTMLElement) => void;
 
-  restore: (props: RestoreProps) => void;
+  restore: () => void;
 };
+
+export type ShapeFactory<T extends Record<string, unknown>> = (
+  pointer: KimochiiPointer,
+  options?: T
+) => Shape;
