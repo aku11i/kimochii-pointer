@@ -48,7 +48,8 @@ export class KimochiiPointer {
   private readonly _options: Required<PointerOptions>;
 
   private readonly _mousePosition: MousePosition;
-  private _isClicking: boolean;
+
+  private _lockedProperties: Map<keyof gsap.TweenVars, gsap.TweenValue>;
 
   private readonly _element: HTMLElement;
   public get element(): HTMLElement {
@@ -68,7 +69,7 @@ export class KimochiiPointer {
     };
 
     this._mousePosition = { x: -1, y: -1 };
-    this._isClicking = false;
+    this._lockedProperties = new Map();
 
     this._element = document.createElement("div");
 
@@ -94,6 +95,10 @@ export class KimochiiPointer {
     if (this._currentShape) {
       this._currentShape.restore({
         apply: this.apply.bind(this),
+        getProperty: this.getProperty.bind(this),
+        lock: this.lock.bind(this),
+        unlock: this.unlock.bind(this),
+        isLocked: this.isLocked.bind(this),
       });
     }
 
@@ -108,14 +113,22 @@ export class KimochiiPointer {
     if (this._currentShape) {
       this._currentShape.restore({
         apply: this.apply.bind(this),
+        getProperty: this.getProperty.bind(this),
+        lock: this.lock.bind(this),
+        unlock: this.unlock.bind(this),
+        isLocked: this.isLocked.bind(this),
       });
     }
 
     this._currentShape = shape;
 
     shape.transform({
-      apply: this.apply.bind(this),
       target,
+      apply: this.apply.bind(this),
+      getProperty: this.getProperty.bind(this),
+      lock: this.lock.bind(this),
+      unlock: this.unlock.bind(this),
+      isLocked: this.isLocked.bind(this),
     });
   }
 
@@ -161,12 +174,12 @@ export class KimochiiPointer {
   };
 
   private _handleMouseDown = () => {
-    this._isClicking = true;
     this.apply({ opacity: this._options.clickedOpacity, duration: 0.2 });
+    this.lock("opacity", this._options.clickedOpacity);
   };
 
   private _handleMouseUp = () => {
-    this._isClicking = false;
+    this.unlock("opacity");
     this.apply({ opacity: this._options.defaultStyles.opacity, duration: 0.2 });
   };
 
@@ -185,17 +198,32 @@ export class KimochiiPointer {
   }
 
   apply(_vars: gsap.TweenVars): void {
-    const vars: gsap.TweenVars = {
-      ..._vars,
-
-      ...(this._isClicking ? { opacity: this._options.clickedOpacity } : {}),
-    };
+    const vars = Object.fromEntries([
+      ...Object.entries(_vars),
+      ...this._lockedProperties.entries(),
+    ]);
 
     if (vars.duration) {
       gsap.to(this._element, vars);
     } else {
       gsap.set(this._element, vars);
     }
+  }
+
+  getProperty(key: keyof gsap.TweenVars): gsap.TweenValue {
+    return gsap.getProperty(this._element, key as string);
+  }
+
+  lock(key: keyof gsap.TweenVars, value: gsap.TweenValue): void {
+    this._lockedProperties.set(key, value);
+  }
+
+  unlock(key: keyof gsap.TweenVars): void {
+    this._lockedProperties.delete(key);
+  }
+
+  isLocked(key: keyof gsap.TweenVars): boolean {
+    return this._lockedProperties.has(key);
   }
 }
 
