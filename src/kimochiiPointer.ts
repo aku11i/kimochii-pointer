@@ -178,14 +178,18 @@ export class KimochiiPointer {
     this._element.remove();
   }
 
-  apply(vars: gsap.TweenVars): void {
-    gsap.to(this._element, {
-      duration: 0,
-
-      ...vars,
+  apply(_vars: gsap.TweenVars): void {
+    const vars: gsap.TweenVars = {
+      ..._vars,
 
       ...(this._isClicking ? { opacity: this._options.clickedOpacity } : {}),
-    });
+    };
+
+    if (vars.duration) {
+      gsap.to(this._element, vars);
+    } else {
+      gsap.set(this._element, vars);
+    }
   }
 }
 
