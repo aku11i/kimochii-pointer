@@ -1,4 +1,4 @@
-import { ShapeFactory } from "../shape";
+import { ShapeFactory } from "../types";
 import { Power2 } from "gsap";
 
 const NAME = "sticky";
