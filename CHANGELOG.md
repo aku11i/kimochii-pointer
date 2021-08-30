@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/aku11i/kimochii-pointer/compare/v0.6.2...v0.7.0) (2021-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Shapeの型定義を変更 (#28)
+
+### Features
+
+* Add shape that increases transparency ([#29](https://github.com/aku11i/kimochii-pointer/issues/29)) ([eea19c5](https://github.com/aku11i/kimochii-pointer/commit/eea19c56e607fb99ea02edcbeeb353244193fcb7))
+* Adjust transition duration of default shapes ([#31](https://github.com/aku11i/kimochii-pointer/issues/31)) ([bbe3dfa](https://github.com/aku11i/kimochii-pointer/commit/bbe3dfa43601248a232fb6f7115e0ffa7ffe5276))
+* 内臓Shapeの型をexportする ([#30](https://github.com/aku11i/kimochii-pointer/issues/30)) ([8b412d7](https://github.com/aku11i/kimochii-pointer/commit/8b412d7e2d569bd108ba710b2280232f2505170e))
+
+
+* Shapeの型定義を変更 ([#28](https://github.com/aku11i/kimochii-pointer/issues/28)) ([8351d20](https://github.com/aku11i/kimochii-pointer/commit/8351d2067ecc40450bdd2700afeeb19fa380bb21))
+
 ### [0.6.2](https://github.com/aku11i/kimochii-pointer/compare/v0.6.1...v0.6.2) (2021-08-28)
 
 
