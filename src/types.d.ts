@@ -7,6 +7,8 @@ export interface Pointer {
 
   findRegisteredShape(name: string): Shape | undefined;
 
+  getAllRegisteredShapes(): Shape[];
+
   attach(shape: Shape, target: HTMLElement): void;
 
   detach(): void;
