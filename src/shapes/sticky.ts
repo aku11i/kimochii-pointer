@@ -11,7 +11,7 @@ export type StickyShapeOptions = {
 };
 
 export const defaultStickyShapeOptions: Required<StickyShapeOptions> = {
-  duration: 0.2,
+  duration: 0.15,
   padding: 0,
   opacity: 0.3,
   radius: 0.1,
