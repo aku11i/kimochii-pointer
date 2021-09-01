@@ -1,4 +1,4 @@
-import { KimochiiPointer, ShapeFactory } from "./src";
+import { KimochiiPointer, Pointer, Shape } from "./src";
 
 await new Promise<void>((resolve) =>
   window.addEventListener("DOMContentLoaded", () => resolve())
@@ -8,23 +8,29 @@ const pointer = new KimochiiPointer();
 
 pointer.mount();
 
-// Create custom shape.
-const pinkShapeFactory: ShapeFactory = (pointer) => {
-  // Backup default pointer color.
-  const backgroundColor = pointer.getProperty("backgroundColor");
+// Create a custom shape.
+class PinkShape implements Shape {
+  name: Shape["name"] = "pink";
 
-  return {
-    name: "pink",
+  private _pointer: Pointer;
 
-    transform: () => {
-      pointer.apply({ backgroundColor: "hotpink" });
-    },
+  private _backup: Required<Pick<gsap.TweenVars, "backgroundColor">>;
 
-    restore: () => {
-      pointer.apply({ backgroundColor });
-    },
+  constructor(pointer: Pointer) {
+    this._pointer = pointer;
+    this._backup = {
+      // Backup default pointer color to restore.
+      backgroundColor: this._pointer.getProperty("backgroundColor"),
+    };
+  }
+
+  transform: Shape["transform"] = () => {
+    this._pointer.apply({ backgroundColor: "hotpink" });
   };
-};
 
-const pinkShape = pinkShapeFactory(pointer);
-pointer.register(pinkShape);
+  restore: Shape["restore"] = () => {
+    this._pointer.apply({ ...this._backup });
+  };
+}
+
+pointer.register(new PinkShape(pointer));

@@ -1,7 +1,5 @@
 import gsap, { Power2 } from "gsap";
-import { ShapeFactory } from "../types";
-
-const NAME = "text";
+import { Pointer, Shape } from "../types";
 
 export type TextShapeOptions = {
   duration?: number;
@@ -15,47 +13,54 @@ export const defaultTextShapeOptions: Required<TextShapeOptions> = {
   ease: Power2.easeOut,
 };
 
-export const textShapeFactory: ShapeFactory<TextShapeOptions> = (
-  pointer,
-  _options = {}
-) => {
-  const options: Required<TextShapeOptions> = {
-    ...defaultTextShapeOptions,
-    ..._options,
+export class TextShape implements Shape {
+  readonly name: Shape["name"] = "text";
+
+  private _pointer: Pointer;
+
+  private _options: Required<TextShapeOptions>;
+
+  private _backup: Required<
+    Pick<gsap.TweenVars, "width" | "height" | "opacity" | "borderRadius">
+  >;
+
+  constructor(pointer: Pointer, options: TextShapeOptions = {}) {
+    this._pointer = pointer;
+
+    this._options = {
+      ...defaultTextShapeOptions,
+      ...options,
+    };
+
+    this._backup = {
+      width: pointer.getProperty("width"),
+      height: pointer.getProperty("height"),
+      opacity: pointer.getProperty("opacity"),
+      borderRadius: pointer.getProperty("borderRadius"),
+    };
+  }
+
+  transform: Shape["transform"] = (target) => {
+    const targetFontSize = gsap.getProperty(target, "fontSize") as number;
+    const height = targetFontSize * 1.2;
+    const width = 5 + targetFontSize * 0.05;
+
+    this._pointer.apply({
+      width,
+      height,
+      borderRadius: `${width / 2}px`,
+      opacity: this._options.opacity,
+      duration: this._options.duration,
+      ease: this._options.ease,
+    });
   };
 
-  const backups: gsap.TweenVars = {
-    width: pointer.getProperty("width"),
-    height: pointer.getProperty("height"),
-    opacity: pointer.getProperty("opacity"),
-    borderRadius: pointer.getProperty("borderRadius"),
+  restore: Shape["restore"] = () => {
+    this._pointer.apply({
+      ...this._backup,
+      duration: this._options.duration,
+      ease: this._options.ease,
+      overwrite: true,
+    });
   };
-
-  return {
-    name: NAME,
-
-    transform: (target) => {
-      const targetFontSize = gsap.getProperty(target, "fontSize") as number;
-      const height = targetFontSize * 1.2;
-      const width = 5 + targetFontSize * 0.05;
-
-      pointer.apply({
-        width,
-        height,
-        borderRadius: `${width / 2}px`,
-        opacity: options.opacity,
-        duration: options.duration,
-        ease: options.ease,
-      });
-    },
-
-    restore: () => {
-      pointer.apply({
-        ...backups,
-        duration: options.duration,
-        ease: options.ease,
-        overwrite: true,
-      });
-    },
-  };
-};
+}

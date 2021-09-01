@@ -1,7 +1,5 @@
-import { ShapeFactory } from "../types";
+import { Pointer, Shape } from "../types";
 import { Power2 } from "gsap";
-
-const NAME = "expanded";
 
 export type ExpandedShapeOptions = {
   scale?: number;
@@ -17,44 +15,48 @@ export const defaultExpandedShapeOptions: Required<ExpandedShapeOptions> = {
   ease: Power2.easeOut,
 };
 
-export const expandedShapeFactory: ShapeFactory<ExpandedShapeOptions> = (
-  pointer,
-  _options = {}
-) => {
-  const options: Required<ExpandedShapeOptions> = {
-    ...defaultExpandedShapeOptions,
-    ..._options,
+export class ExpandedShape implements Shape {
+  readonly name: Shape["name"] = "expanded";
+
+  private _pointer: Pointer;
+
+  private _options: Required<ExpandedShapeOptions>;
+
+  private _backup: Required<
+    Pick<gsap.TweenVars, "width" | "height" | "opacity">
+  >;
+
+  constructor(pointer: Pointer, options: ExpandedShapeOptions = {}) {
+    this._pointer = pointer;
+
+    this._options = {
+      ...defaultExpandedShapeOptions,
+      ...options,
+    };
+
+    this._backup = {
+      width: pointer.getProperty("width"),
+      height: pointer.getProperty("height"),
+      opacity: pointer.getProperty("opacity"),
+    };
+  }
+
+  transform: Shape["transform"] = () => {
+    this._pointer.apply({
+      width: (this._backup.width as number) * this._options.scale,
+      height: (this._backup.height as number) * this._options.scale,
+      opacity: this._options.opacity,
+      ease: this._options.ease,
+      duration: this._options.duration,
+    });
   };
 
-  const width = pointer.getProperty("width") as number;
-  const height = pointer.getProperty("height") as number;
-
-  const backups: gsap.TweenVars = {
-    width,
-    height,
-    opacity: pointer.getProperty("opacity"),
+  restore: Shape["restore"] = () => {
+    this._pointer.apply({
+      ...this._backup,
+      duration: this._options.duration,
+      overwrite: true,
+      ease: this._options.ease,
+    });
   };
-
-  return {
-    name: NAME,
-
-    transform: () => {
-      pointer.apply({
-        width: width * options.scale,
-        height: height * options.scale,
-        opacity: options.opacity,
-        ease: options.ease,
-        duration: options.duration,
-      });
-    },
-
-    restore: () => {
-      pointer.apply({
-        ...backups,
-        duration: options.duration,
-        overwrite: true,
-        ease: options.ease,
-      });
-    },
-  };
-};
+}

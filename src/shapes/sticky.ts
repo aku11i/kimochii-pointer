@@ -1,7 +1,5 @@
-import { ShapeFactory } from "../types";
+import { Pointer, Shape } from "../types";
 import { Power2 } from "gsap";
-
-const NAME = "sticky";
 
 export type StickyShapeOptions = {
   duration?: number;
@@ -19,50 +17,57 @@ export const defaultStickyShapeOptions: Required<StickyShapeOptions> = {
   ease: Power2.easeOut,
 };
 
-export const stickyShapeFactory: ShapeFactory<StickyShapeOptions> = (
-  pointer,
-  _options = {}
-) => {
-  const options: Required<StickyShapeOptions> = {
-    ...defaultStickyShapeOptions,
-    ..._options,
+export class StickyShape implements Shape {
+  readonly name: Shape["name"] = "sticky";
+
+  private _pointer: Pointer;
+
+  private _options: Required<StickyShapeOptions>;
+
+  private _backup: Required<
+    Pick<gsap.TweenVars, "width" | "height" | "opacity" | "borderRadius">
+  >;
+
+  constructor(pointer: Pointer, options: StickyShapeOptions = {}) {
+    this._pointer = pointer;
+
+    this._options = {
+      ...defaultStickyShapeOptions,
+      ...options,
+    };
+
+    this._backup = {
+      width: pointer.getProperty("width"),
+      height: pointer.getProperty("height"),
+      opacity: pointer.getProperty("opacity"),
+      borderRadius: pointer.getProperty("borderRadius"),
+    };
+  }
+
+  shouldFixPosition: Shape["shouldFixPosition"] = () => true;
+
+  transform: Shape["transform"] = (target) => {
+    const width = target.offsetWidth + this._options.padding;
+    const height = target.offsetHeight + this._options.padding;
+
+    this._pointer.apply({
+      top: target.offsetTop + height / 2,
+      left: target.offsetLeft + width / 2,
+      width,
+      height,
+      opacity: this._options.opacity,
+      borderRadius: `${Math.min(width, height) * this._options.radius}px`,
+      duration: this._options.duration,
+      ease: this._options.ease,
+    });
   };
 
-  const backups: gsap.TweenVars = {
-    width: pointer.getProperty("width"),
-    height: pointer.getProperty("height"),
-    opacity: pointer.getProperty("opacity"),
-    borderRadius: pointer.getProperty("borderRadius"),
+  restore: Shape["restore"] = () => {
+    this._pointer.apply({
+      ...this._backup,
+      duration: this._options.duration,
+      ease: this._options.ease,
+      overwrite: true,
+    });
   };
-
-  return {
-    name: NAME,
-
-    shouldFixPosition: () => true,
-
-    transform: (target) => {
-      const width = target.offsetWidth + options.padding;
-      const height = target.offsetHeight + options.padding;
-
-      pointer.apply({
-        top: target.offsetTop + height / 2,
-        left: target.offsetLeft + width / 2,
-        width,
-        height,
-        opacity: options.opacity,
-        borderRadius: `${Math.min(width, height) * options.radius}px`,
-        duration: options.duration,
-        ease: options.ease,
-      });
-    },
-
-    restore: () => {
-      pointer.apply({
-        ...backups,
-        duration: options.duration,
-        ease: options.ease,
-        overwrite: true,
-      });
-    },
-  };
-};
+}
