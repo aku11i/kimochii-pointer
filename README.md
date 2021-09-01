@@ -12,7 +12,7 @@ https://akutagawa.dev/
 
 ## Supported platforms
 
-Tested on latest version of major browsers (Chrome, Safari, Firefox).
+Tested on the latest version of major browsers (Chrome, Safari, Firefox).
 
 ## Installation
 
@@ -50,9 +50,9 @@ e.g.:
 <button data-kimochii-pointer="sticky">BUTTON</button>
 ```
 
-Pointer will be sticked to the element when you move to over the one.
+The pointer will be stuck to the element when you move over the one.
 
-If you want to hide default mouse cursor of operation system, add below style to your global css:
+If you want to hide the default mouse cursor of the operation system, add the below style to your global CSS:
 
 ```css
 * {
@@ -62,13 +62,11 @@ If you want to hide default mouse cursor of operation system, add below style to
 
 ## Preinstalled shapes
 
-There are preinstalled shapes.
-
-You can use them without any steps.
+There are preinstalled shapes that you can use without any steps.
 
 ### Expanded
 
-Pointer expands its scale.
+The pointer expands its scale.
 
 ```html
 <div data-kimochii-pointer="expanded"></div>
@@ -76,7 +74,7 @@ Pointer expands its scale.
 
 ### Sticky
 
-Pointer sticks to the element.
+The pointer sticks to the element.
 
 ```html
 <div data-kimochii-pointer="sticky"></div>
@@ -84,7 +82,7 @@ Pointer sticks to the element.
 
 ### Text
 
-Pointer stretches vertically like a text cursor.
+The pointer stretches vertically like a text cursor.
 
 ```html
 <p data-kimochii-pointer="text"></p>
@@ -92,7 +90,7 @@ Pointer stretches vertically like a text cursor.
 
 ### Hidden
 
-Pointer hides its shape.
+The pointer hides its shape.
 
 ```html
 <div data-kimochii-pointer="hidden"></div>
@@ -100,7 +98,7 @@ Pointer hides its shape.
 
 ### Lighter
 
-Pointer decreases its opacity.
+The pointer decreases its opacity.
 
 ```html
 <div data-kimochii-pointer="lighter"></div>
@@ -108,9 +106,7 @@ Pointer decreases its opacity.
 
 ## Create a custom shape
 
-`ShapeFactory` is usefull function type to create a custom shape.
-
-Below is an example of custom shape that change pointer color to pink.
+Below is an example of a custom shape that changes pointer color to pink.
 
 ```typescript
 import { ShapeFactory } from "kimochii-pointer";
@@ -175,7 +171,7 @@ yarn install
 yarn dev
 ```
 
-Demo page (`http://localhost:3000/demo.html`) will be opened automatically.
+The demo page (`http://localhost:3000/demo.html`) will be opened automatically.
 
 Then you can start development by editing `demo.html`, `demo.ts`, `src/`.
 
