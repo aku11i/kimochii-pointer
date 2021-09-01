@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/aku11i/kimochii-pointer/compare/v0.10.0...v0.11.0) (2021-09-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Shapeの実装をクラスに置き換える (#51)
+
+* Shapeの実装をクラスに置き換える ([#51](https://github.com/aku11i/kimochii-pointer/issues/51)) ([1668765](https://github.com/aku11i/kimochii-pointer/commit/1668765d91cdf905997ad92a5edc1bbb48c8cc8d))
+
 ## [0.10.0](https://github.com/aku11i/kimochii-pointer/compare/v0.9.4...v0.10.0) (2021-08-30)
 
 
