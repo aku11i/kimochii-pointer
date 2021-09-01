@@ -106,10 +106,3 @@ export type Shape = {
    */
   restore: () => void;
 };
-
-/**
- * A utility function to create shape.
- */
-export type ShapeFactory<
-  T extends Record<string, unknown> = Record<string, unknown>
-> = (pointer: Pointer, options?: T) => Shape;

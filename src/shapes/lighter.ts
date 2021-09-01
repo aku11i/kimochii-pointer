@@ -1,7 +1,5 @@
 import { Power2 } from "gsap";
-import { ShapeFactory } from "../types";
-
-const NAME = "lighter";
+import { Pointer, Shape } from "../types";
 
 export type LighterShapeOptions = {
   duration?: number;
@@ -15,37 +13,42 @@ export const defaultLighterShapeOptions: Required<LighterShapeOptions> = {
   ease: Power2.easeOut,
 };
 
-export const lighterShapeFactory: ShapeFactory<LighterShapeOptions> = (
-  pointer,
-  _options = {}
-) => {
-  const options: Required<LighterShapeOptions> = {
-    ...defaultLighterShapeOptions,
-    ..._options,
+export class LighterShape implements Shape {
+  readonly name: Shape["name"] = "lighter";
+
+  private _pointer: Pointer;
+
+  private _options: Required<LighterShapeOptions>;
+
+  private _backup: Required<Pick<gsap.TweenVars, "opacity">>;
+
+  constructor(pointer: Pointer, options: LighterShapeOptions = {}) {
+    this._pointer = pointer;
+
+    this._options = {
+      ...defaultLighterShapeOptions,
+      ...options,
+    };
+
+    this._backup = {
+      opacity: pointer.getProperty("opacity"),
+    };
+  }
+
+  transform: Shape["transform"] = () => {
+    this._pointer.apply({
+      opacity: this._options.opacity,
+      ease: this._options.ease,
+      duration: this._options.duration,
+    });
   };
 
-  const backups: gsap.TweenVars = {
-    opacity: pointer.getProperty("opacity"),
+  restore: Shape["restore"] = () => {
+    this._pointer.apply({
+      ...this._backup,
+      duration: this._options.duration,
+      overwrite: true,
+      ease: this._options.ease,
+    });
   };
-
-  return {
-    name: NAME,
-
-    transform: () => {
-      pointer.apply({
-        opacity: options.opacity,
-        duration: options.duration,
-        ease: options.ease,
-      });
-    },
-
-    restore: () => {
-      pointer.apply({
-        ...backups,
-        duration: options.duration,
-        ease: options.ease,
-        overwrite: true,
-      });
-    },
-  };
-};
+}

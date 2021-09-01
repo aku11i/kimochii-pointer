@@ -1,11 +1,11 @@
 import { gsap, Power2 } from "gsap";
 import { Pointer, Shape } from "./types";
 import {
-  expandedShapeFactory,
-  hiddenShapeFactory,
-  lighterShapeFactory,
-  stickyShapeFactory,
-  textShapeFactory,
+  ExpandedShape,
+  HiddenShape,
+  LighterShape,
+  StickyShape,
+  TextShape,
 } from "./shapes";
 
 export const ATTRIBUTE_NAME = "data-kimochii-pointer";
@@ -79,11 +79,11 @@ export class KimochiiPointer implements Pointer {
 
     this._shapes = new Map();
 
-    this.register(expandedShapeFactory(this));
-    this.register(stickyShapeFactory(this));
-    this.register(textShapeFactory(this));
-    this.register(hiddenShapeFactory(this));
-    this.register(lighterShapeFactory(this));
+    this.register(new ExpandedShape(this));
+    this.register(new StickyShape(this));
+    this.register(new TextShape(this));
+    this.register(new HiddenShape(this));
+    this.register(new LighterShape(this));
   }
 
   register: Pointer["register"] = (shape: Shape) => {
