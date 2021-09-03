@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.1](https://github.com/aku11i/kimochii-pointer/compare/v0.11.0...v0.11.1) (2021-09-03)
+
+
+### Bug Fixes
+
+* Shapeの変形時にoverwriteオプションを付ける ([#53](https://github.com/aku11i/kimochii-pointer/issues/53)) ([3cd8371](https://github.com/aku11i/kimochii-pointer/commit/3cd83714675ef5349b21e5ff09281c54fb7957fb))
+
 ## [0.11.0](https://github.com/aku11i/kimochii-pointer/compare/v0.10.0...v0.11.0) (2021-09-01)
 
 
