@@ -59,6 +59,7 @@ export class StickyShape implements Shape {
       borderRadius: `${Math.min(width, height) * this._options.radius}px`,
       duration: this._options.duration,
       ease: this._options.ease,
+      overwrite: true,
     });
   };
 

@@ -38,8 +38,9 @@ export class LighterShape implements Shape {
   transform: Shape["transform"] = () => {
     this._pointer.apply({
       opacity: this._options.opacity,
-      ease: this._options.ease,
       duration: this._options.duration,
+      ease: this._options.ease,
+      overwrite: true,
     });
   };
 
@@ -47,8 +48,8 @@ export class LighterShape implements Shape {
     this._pointer.apply({
       ...this._backup,
       duration: this._options.duration,
-      overwrite: true,
       ease: this._options.ease,
+      overwrite: true,
     });
   };
 }

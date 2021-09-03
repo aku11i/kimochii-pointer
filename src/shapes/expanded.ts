@@ -46,8 +46,9 @@ export class ExpandedShape implements Shape {
       width: (this._backup.width as number) * this._options.scale,
       height: (this._backup.height as number) * this._options.scale,
       opacity: this._options.opacity,
-      ease: this._options.ease,
       duration: this._options.duration,
+      ease: this._options.ease,
+      overwrite: true,
     });
   };
 
@@ -55,8 +56,8 @@ export class ExpandedShape implements Shape {
     this._pointer.apply({
       ...this._backup,
       duration: this._options.duration,
-      overwrite: true,
       ease: this._options.ease,
+      overwrite: true,
     });
   };
 }
