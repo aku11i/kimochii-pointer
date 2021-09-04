@@ -47,12 +47,14 @@ export class StickyShape implements Shape {
   shouldFixPosition: Shape["shouldFixPosition"] = () => true;
 
   transform: Shape["transform"] = (target) => {
-    const width = target.offsetWidth + this._options.padding;
-    const height = target.offsetHeight + this._options.padding;
+    const rect = target.getBoundingClientRect();
+    const { top, left } = rect;
+    const width = rect.width + this._options.padding;
+    const height = rect.height + this._options.padding;
 
     this._pointer.apply({
-      top: target.offsetTop + height / 2,
-      left: target.offsetLeft + width / 2,
+      top: top + height / 2,
+      left: left + width / 2,
       width,
       height,
       opacity: this._options.opacity,
