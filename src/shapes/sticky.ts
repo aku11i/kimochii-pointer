@@ -48,13 +48,14 @@ export class StickyShape implements Shape {
 
   transform: Shape["transform"] = (target) => {
     const rect = target.getBoundingClientRect();
-    const { top, left } = rect;
     const width = rect.width + this._options.padding;
     const height = rect.height + this._options.padding;
+    const top = window.scrollY + rect.top + height / 2;
+    const left = window.scrollX + rect.left + width / 2;
 
     this._pointer.apply({
-      top: top + height / 2,
-      left: left + width / 2,
+      top,
+      left,
       width,
       height,
       opacity: this._options.opacity,
