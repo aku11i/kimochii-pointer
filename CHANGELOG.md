@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.3](https://github.com/aku11i/kimochii-pointer/compare/v0.11.2...v0.11.3) (2021-09-05)
+
+
+### Bug Fixes
+
+* **StickyShape:** スクロール時の座標計算を修正 ([#55](https://github.com/aku11i/kimochii-pointer/issues/55)) ([6544d8c](https://github.com/aku11i/kimochii-pointer/commit/6544d8c962f5df4228712973d8cad02920d6866a))
+
 ### [0.11.2](https://github.com/aku11i/kimochii-pointer/compare/v0.11.1...v0.11.2) (2021-09-05)
 
 
