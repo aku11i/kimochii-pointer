@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.11.4](https://github.com/aku11i/kimochii-pointer/compare/v0.11.3...v0.11.4) (2021-09-06)
+
 ### [0.11.3](https://github.com/aku11i/kimochii-pointer/compare/v0.11.2...v0.11.3) (2021-09-05)
 
 
