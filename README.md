@@ -106,7 +106,7 @@ The pointer decreases its opacity.
 
 ## Create a custom shape
 
-Below is an example of a custom shape that changes pointer color to pink.
+Below is an example of a custom shape that changes pointer color to pink (TypeScript).
 
 ```typescript
 import { Shape } from "kimochii-pointer";
