@@ -109,7 +109,7 @@ The pointer decreases its opacity.
 Below is an example of a custom shape that changes pointer color to pink.
 
 ```typescript
-import { ShapeFactory } from "kimochii-pointer";
+import { Shape } from "kimochii-pointer";
 
 // Create a custom shape.
 class PinkShape implements Shape {
@@ -140,7 +140,7 @@ class PinkShape implements Shape {
 Register to the pointer:
 
 ```typescript
-import { KimochiiPointer, Shape } from "kimochii-pointer";
+import { KimochiiPointer } from "kimochii-pointer";
 
 const pointer = new KimochiiPointer();
 pointer.mount();
@@ -148,7 +148,7 @@ pointer.mount();
 pointer.register(new PinkShape(pointer));
 ```
 
-Use from HTML elemen.
+Use from HTML element.
 
 ```html
 <div data-kimochii-pointer="pink"></div>
