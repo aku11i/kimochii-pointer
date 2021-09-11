@@ -1,5 +1,5 @@
 import { gsap, Power2 } from "gsap";
-import { Pointer, Shape } from "./types";
+import { Pointer, Shpe } from "./types";
 import {
   ExpandedShape,
   HiddenShape,
