@@ -23,7 +23,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "release": "standard-version",
     "clean": "shx rm -rf dist",
-    "prepare": "yarn build"
+    "prepublishOnly": "yarn build"
   },
   "repository": {
     "type": "git",
