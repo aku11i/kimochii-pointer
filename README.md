@@ -177,4 +177,6 @@ Then you can start development by editing `demo.html`, `demo.ts`, `src/`.
 
 ### Test
 
-There are no tests yet. 😱
+```sh
+yarn test
+```
