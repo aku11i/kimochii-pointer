@@ -97,9 +97,9 @@ export class KimochiiPointer implements Pointer {
     return this._shapes.get(name);
   };
 
-  getAllRegisteredShapes(): Shape[] {
+  getAllRegisteredShapes: Pointer["getAllRegisteredShapes"] = () => {
     return Array.from(this._shapes.values());
-  }
+  };
 
   attach: Pointer["attach"] = (shape: Shape, target: HTMLElement) => {
     if (this._currentShape) {
