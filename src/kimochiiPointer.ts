@@ -152,7 +152,7 @@ export class KimochiiPointer implements Pointer {
 
   lock: Pointer["lock"] = (
     key: keyof gsap.TweenVars,
-    value: gsap.TweenValue
+    value: gsap.TweenValue = this.getProperty(key)
   ) => {
     this._lockedProperties.set(key, value);
   };

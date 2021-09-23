@@ -67,7 +67,7 @@ export interface Pointer {
    * Lock the style property of the pointer.
    * Until `unlock` is called, locked property will never be changed.
    */
-  lock(key: keyof gsap.TweenVars, value: gsap.TweenValue): void;
+  lock(key: keyof gsap.TweenVars, value?: gsap.TweenValue): void;
 
   /**
    * Unlock the style property of the pointer.
