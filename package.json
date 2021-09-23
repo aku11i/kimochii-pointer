@@ -23,7 +23,7 @@
     "test": "jest",
     "release": "standard-version",
     "clean": "shx rm -rf dist",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn install --frozen-lockfile && yarn build"
   },
   "repository": {
     "type": "git",
