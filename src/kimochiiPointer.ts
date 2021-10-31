@@ -125,6 +125,7 @@ export class KimochiiPointer implements Pointer {
     window.addEventListener("mousemove", this._handleMouseMove);
     window.addEventListener("mousedown", this._handleMouseDown);
     window.addEventListener("mouseup", this._handleMouseUp);
+    window.addEventListener("scroll", this._handleScroll);
     to.appendChild(this._element);
   };
 
@@ -132,6 +133,7 @@ export class KimochiiPointer implements Pointer {
     window.removeEventListener("mousemove", this._handleMouseMove);
     window.removeEventListener("mousedown", this._handleMouseDown);
     window.removeEventListener("mouseup", this._handleMouseUp);
+    window.removeEventListener("scroll", this._handleScroll);
     this._element.remove();
   };
 
@@ -167,15 +169,8 @@ export class KimochiiPointer implements Pointer {
     return this._lockedProperties.has(key);
   };
 
-  private _handleMouseMove = (event: MouseEvent): void => {
-    const { clientX, clientY, pageX, pageY } = event;
-
-    if (this._mousePosition.pageX < 0 && this._mousePosition.pageY < 0) {
-      this.apply({ top: pageY, left: pageX });
-    }
-
-    this._mousePosition = { clientX, clientY, pageX, pageY };
-
+  private _update = () => {
+    const { clientX, clientY, pageX, pageY } = this._mousePosition;
     const newTarget = document
       .elementsFromPoint(clientX, clientY)
       .find((el) => el.getAttribute(ATTRIBUTE_NAME));
@@ -207,6 +202,18 @@ export class KimochiiPointer implements Pointer {
     });
   };
 
+  private _handleMouseMove = (event: MouseEvent): void => {
+    const { clientX, clientY, pageX, pageY } = event;
+
+    if (this._mousePosition.pageX < 0 && this._mousePosition.pageY < 0) {
+      this.apply({ top: pageY, left: pageX });
+    }
+
+    this._mousePosition = { clientX, clientY, pageX, pageY };
+
+    this._update();
+  };
+
   private _handleMouseDown = () => {
     this.apply({ opacity: this._options.clickedOpacity, duration: 0.2 });
     this.lock("opacity", this._options.clickedOpacity);
@@ -215,6 +222,18 @@ export class KimochiiPointer implements Pointer {
   private _handleMouseUp = () => {
     this.unlock("opacity");
     this.apply({ opacity: this._options.defaultStyles.opacity, duration: 0.2 });
+  };
+
+  private _handleScroll = () => {
+    const { clientX, clientY } = this._mousePosition;
+    const { scrollLeft, scrollTop } = window.document.documentElement;
+
+    const pageX = clientX + scrollLeft;
+    const pageY = clientY + scrollTop;
+
+    this._mousePosition = { clientX, clientY, pageX, pageY };
+
+    this._update();
   };
 }
 
