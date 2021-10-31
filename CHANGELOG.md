@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/aku11i/kimochii-pointer/compare/v0.11.6...v0.12.0) (2021-10-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* Change the type of `MousePosition` (#105)
+
+### Bug Fixes
+
+* Previous shape is not restored when pointer is moving quickly ([#107](https://github.com/aku11i/kimochii-pointer/issues/107)) ([cb40a67](https://github.com/aku11i/kimochii-pointer/commit/cb40a67f71455ce446184dae714033bff85f2492))
+* Update pointer shape on scrolling ([#106](https://github.com/aku11i/kimochii-pointer/issues/106)) ([cd77f46](https://github.com/aku11i/kimochii-pointer/commit/cd77f469e76a184d2b46f238e4603120ded10c20))
+
+
+* Change the type of `MousePosition` ([#105](https://github.com/aku11i/kimochii-pointer/issues/105)) ([457b740](https://github.com/aku11i/kimochii-pointer/commit/457b74040cc572e464a2b2989fe14bc52b3618df))
+
 ### [0.11.6](https://github.com/aku11i/kimochii-pointer/compare/v0.11.5...v0.11.6) (2021-10-23)
 
 ### [0.11.5](https://github.com/aku11i/kimochii-pointer/compare/v0.11.4...v0.11.5) (2021-09-23)
