@@ -38,7 +38,6 @@ export class HiddenShape implements Shape {
       opacity: 0,
       duration: this._options.duration,
       ease: this._options.ease,
-      overwrite: true,
     });
   };
 

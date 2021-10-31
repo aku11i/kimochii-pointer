@@ -25,7 +25,7 @@ class PinkShape implements Shape {
   }
 
   transform: Shape["transform"] = () => {
-    this._pointer.apply({ backgroundColor: "hotpink", overwrite: true });
+    this._pointer.apply({ backgroundColor: "hotpink" });
   };
 
   restore: Shape["restore"] = () => {
