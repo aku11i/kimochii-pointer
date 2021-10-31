@@ -48,7 +48,6 @@ export class ExpandedShape implements Shape {
       opacity: this._options.opacity,
       duration: this._options.duration,
       ease: this._options.ease,
-      overwrite: true,
     });
   };
 
