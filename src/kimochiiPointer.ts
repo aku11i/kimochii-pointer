@@ -39,14 +39,16 @@ export const pointerDefaultOptions: Required<PointerOptions> = {
 } as const;
 
 export type MousePosition = {
-  x: number;
-  y: number;
+  clientX: number;
+  clientY: number;
+  pageX: number;
+  pageY: number;
 };
 
 export class KimochiiPointer implements Pointer {
   private readonly _options: Required<PointerOptions>;
 
-  private readonly _mousePosition: MousePosition;
+  private _mousePosition: Readonly<MousePosition>;
 
   private _lockedProperties: Map<keyof gsap.TweenVars, gsap.TweenValue>;
 
@@ -67,7 +69,7 @@ export class KimochiiPointer implements Pointer {
       ...userOptions,
     };
 
-    this._mousePosition = { x: -1, y: -1 };
+    this._mousePosition = { clientX: -1, clientY: -1, pageX: -1, pageY: -1 };
     this._lockedProperties = new Map();
 
     this._element = document.createElement("div");
@@ -166,14 +168,13 @@ export class KimochiiPointer implements Pointer {
   };
 
   private _handleMouseMove = (event: MouseEvent): void => {
-    const { pageX, pageY, clientX, clientY } = event;
+    const { clientX, clientY, pageX, pageY } = event;
 
-    if (this._mousePosition.x < 0 && this._mousePosition.y < 0) {
+    if (this._mousePosition.pageX < 0 && this._mousePosition.pageY < 0) {
       this.apply({ top: pageY, left: pageX });
     }
 
-    this._mousePosition.x = pageX;
-    this._mousePosition.y = pageY;
+    this._mousePosition = { clientX, clientY, pageX, pageY };
 
     const newTarget = document
       .elementsFromPoint(clientX, clientY)
