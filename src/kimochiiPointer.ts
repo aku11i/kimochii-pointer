@@ -228,6 +228,8 @@ export class KimochiiPointer implements Pointer {
     const { clientX, clientY } = this._mousePosition;
     const { scrollLeft, scrollTop } = window.document.documentElement;
 
+    if (clientX < 0 && clientY < 0) return;
+
     const pageX = clientX + scrollLeft;
     const pageY = clientY + scrollTop;
 
