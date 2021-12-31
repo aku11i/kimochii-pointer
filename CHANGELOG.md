@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.1](https://github.com/aku11i/kimochii-pointer/compare/v0.12.0...v0.12.1) (2021-12-31)
+
+
+### Bug Fixes
+
+* Do nothing when scrolling if pointer is off the screen ([#146](https://github.com/aku11i/kimochii-pointer/issues/146)) ([2cde323](https://github.com/aku11i/kimochii-pointer/commit/2cde323a0aac8ada5508c796df37a08554834dac))
+
 ## [0.12.0](https://github.com/aku11i/kimochii-pointer/compare/v0.11.6...v0.12.0) (2021-10-31)
 
 
