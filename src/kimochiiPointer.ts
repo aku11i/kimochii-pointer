@@ -171,9 +171,8 @@ export class KimochiiPointer implements Pointer {
 
   private _update = () => {
     const { clientX, clientY, pageX, pageY } = this._mousePosition;
-    const newTarget = document
-      .elementsFromPoint(clientX, clientY)
-      .find((el) => el.getAttribute(ATTRIBUTE_NAME));
+
+    const newTarget = this._findTransformElement(clientX, clientY);
 
     if (!newTarget) {
       this._targetElement = undefined;
@@ -236,6 +235,19 @@ export class KimochiiPointer implements Pointer {
     this._mousePosition = { clientX, clientY, pageX, pageY };
 
     this._update();
+  };
+
+  private _findTransformElement = (
+    clientX: number,
+    clientY: number
+  ): Element | undefined => {
+    const elements = document.elementsFromPoint(clientX, clientY);
+    let length = elements.length;
+    while (length--) {
+      const attr = elements[length].getAttribute(ATTRIBUTE_NAME);
+      if (attr) return elements[length];
+    }
+    return undefined;
   };
 }
 
