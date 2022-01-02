@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.2](https://github.com/aku11i/kimochii-pointer/compare/v0.12.1...v0.12.2) (2022-01-02)
+
+
+### Bug Fixes
+
+* Attributeを持ったElementがネストしている時、外側のElementのAttributeを使用する ([#147](https://github.com/aku11i/kimochii-pointer/issues/147)) ([f6ac6b6](https://github.com/aku11i/kimochii-pointer/commit/f6ac6b6aed237f21d9e6fdccbe1fe9780510a41c))
+
 ### [0.12.1](https://github.com/aku11i/kimochii-pointer/compare/v0.12.0...v0.12.1) (2021-12-31)
 
 
